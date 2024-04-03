@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.show-footer-info {
+    transition: all 0.5s cubic-bezier(0.5, 0, 0.1, 1) 0s;
+}
