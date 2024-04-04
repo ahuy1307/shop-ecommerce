@@ -62,7 +62,7 @@ function Header() {
                                         <Link href={item.url}
                                               className={"inline-flex items-center bg-gray-500/10 " + "gap-x-2 rounded-md px-2 cursor-pointer"}>
                                             <item.icon className={"w-5 h-5 text-gray-500"}/>
-                                            <p className={"text-gray-500"}>{item.name}</p>
+                                            <p className={"text-gray-500 px-1"}>{item.name}</p>
                                         </Link>
                                     );
                                 })}
