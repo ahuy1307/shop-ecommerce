@@ -9,3 +9,17 @@
 body {
     overflow-x: hidden;
 }
+
+.category > .swiper {
+    padding-bottom: 30px !important;
+}
+
+.product-seller > .swiper {
+    padding-bottom: 30px !important;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: black !important; /* Màu nền của nút active */
+    border: none !important;
+    transition: all 0.6s ease;
+}
