@@ -18,7 +18,7 @@ function Header() {
     return (
         <header
             className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
-                                xl:px-[120px] md:px-[36px] sm:px-[50px] bg-white">
+                                xl:px-[120px] md:px-[36px] sm:px-[20px] bg-white z-10">
             <div onClick={() => setShowMenu("")}
                  className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500`, showMenu != "" && `block`)}></div>
             <div className="flex items-center gap-x-8 md:hidden">
@@ -94,10 +94,10 @@ function Header() {
                     <AiOutlineHeart className="w-5 h-5 mx-auto"/>
                     <p>Wishlist</p>
                 </div>
-                <div className="cursor-pointer">
+                <Link href="/cart" className="cursor-pointer">
                     <CartIcon className="w-5 h-5 mx-auto"/>
                     <p>Cart</p>
-                </div>
+                </Link>
                 <Link href="/auth" className="bg-black text-white rounded-md px-6 py-2">
                     Login
                 </Link>
