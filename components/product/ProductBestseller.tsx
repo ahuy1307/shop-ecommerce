@@ -5,6 +5,7 @@ import Link from "next/link";
 import {AiFillFire} from "react-icons/ai";
 import {SwiperSlide} from "swiper/react";
 import SliderProduct from "@/components/home/SliderProduct";
+import ProductView from "@/components/product/ProductView";
 
 function ProductBestseller() {
     const pagination = {
@@ -17,7 +18,7 @@ function ProductBestseller() {
     };
     const [products, setProducts] = useState()
 
-    return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4"}>
+    return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 z-[99]"}>
         <div className={"flex items-center justify-center gap-x-2"}>
             <h2 className={"text-xl font-bold text-center mt-6 mb-4 md:text-2xl"}>Our Bestseller</h2>
             <AiFillFire className={"w-5 h-5 text-red-600 relative top-1 md:w-6 md:h-6"}/>
@@ -43,6 +44,7 @@ function ProductBestseller() {
         <Link className={"bg-black text-white px-6 py-2 block w-fit mx-auto mt-8 rounded-md"} href={"/product"}>
             View All
         </Link>
+        <ProductView/>
     </div>
 }
 

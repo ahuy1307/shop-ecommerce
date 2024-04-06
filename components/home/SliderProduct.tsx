@@ -40,6 +40,17 @@ function SliderProduct({children}: { children: ReactNode }) {
             },
             1024: {
                 slidesPerView: 4,
+                grid: {
+                    rows: 1,
+                    fill: "row"
+                }
+            },
+            1700: {
+                slidesPerView: 4,
+                grid: {
+                    rows: 1,
+                    fill: "row"
+                }
             },
         }}
         slidesPerView={2}

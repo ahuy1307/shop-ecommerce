@@ -75,7 +75,9 @@ function Header() {
                 <Logo className="w-[90px] h-14 cursor-pointer"/>
             </Link>
             <div className="flex items-center gap-x-8 md:hidden">
-                <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
+                <Link href={"/auth"}>
+                    <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
+                </Link>
                 <Link href={"/cart"} className={"relative"}>
                     <CartIcon className="w-6 h-6 cursor-pointer"/>
                     <p className={"bg-black text-white absolute px-2 rounded-full -top-3 -right-3 "}>0</p>
