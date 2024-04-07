@@ -1,10 +1,10 @@
 import {AiOutlineEye} from "react-icons/ai";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import {twMerge} from "tailwind-merge";
 import ProductView from "@/components/product/ProductView";
 import useViewProduct from "@/hooks/useViewProduct";
 
-function ProductItem() {
+function ProductItem({setProducts}: { setProducts: Dispatch<SetStateAction<boolean>> }) {
     const [checkHover, setCheckHover] = useState(false)
     const viewProduct = useViewProduct()
 
@@ -21,11 +21,11 @@ function ProductItem() {
                 <div
                     className={twMerge(`lg:absolute bottom-0 left-[50%] 
                     lg:translate-x-[-50%] bg-white text-center border py-2 border-black w-full lg:opacity-0 transition-all duration-200`, checkHover && `lg:opacity-100 lg:bottom-2`)}>
-                    <span className={"font-bold"}>QUICK ADD</span>
+                    <span className={"font-bold"} onClick={() => setProducts(false)}>QUICK ADD</span>
                 </div>
             </div>
             <div className={"cursor-pointer text-center mt-4"}>
-                <h3 className={"text-sm hover:underline"}>
+                <h3 className={"text-sm hover:underline"} onClick={() => setProducts(true)}>
                     Glow in the Dark Football Print Long Sleeve Kids Night Suit
                 </h3>
                 <span className={"text-sm font-bold"}>$60.00</span>

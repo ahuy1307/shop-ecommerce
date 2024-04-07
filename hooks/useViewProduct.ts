@@ -6,7 +6,7 @@ type Props = {
     onClose: () => void;
 };
 const useViewProduct = create<Props>((set) => ({
-    isOpen: true,
+    isOpen: false,
     onOpen: () => set({isOpen: true}),
     onClose: () => set({isOpen: false}),
 }));

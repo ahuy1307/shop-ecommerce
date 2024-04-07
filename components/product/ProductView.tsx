@@ -2,6 +2,7 @@ import {twMerge} from "tailwind-merge";
 import useViewProduct from "@/hooks/useViewProduct";
 import {useEffect} from "react";
 import {AiOutlineClose, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
+import SliderImageProduct from "@/components/product/SliderImageProduct";
 
 function ProductView() {
     const viewProduct = useViewProduct()
@@ -9,33 +10,31 @@ function ProductView() {
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
         if (viewProduct.isOpen)
-            document.querySelector<HTMLElement>("body")!.style.overflow = "hidden"
+            document.querySelector<HTMLElement>("body")!.style.overflowY = "hidden"
         else
-            document.querySelector<HTMLElement>("body")!.style.overflow = "auto"
+            document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
 
     }, [viewProduct.isOpen])
 
 
     return <>
         <div onClick={viewProduct.onClose}
-             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-10 cursor-none`, viewProduct.isOpen && `block`)}></div>
+             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, viewProduct.isOpen && `block`)}></div>
         <div
             className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] left-[50%] translate-x-[-50%]
-                translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-10`, viewProduct.isOpen && `block`)}>
+                translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-[101]`, viewProduct.isOpen && `block`)}>
             <div className={"pt-8 h-full"}>
                 <div className={"absolute -right-3 -top-3 bg-black p-1"} onClick={viewProduct.onClose}>
                     <AiOutlineClose className={"w-5 h-5 text-white"}/>
                 </div>
-                <div className={"px-8 relative overflow-y-scroll h-full"}>
-                    <div className={""}>
+                <div className={"relative overflow-y-scroll h-full"}>
+                    <div className={"px-8"}>
                         <img
                             src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
                             alt=""/>
-                        {/*<img*/}
-                        {/*    src="https://www.shopbloom.in/cdn/shop/files/Artboard33_d83936ee-8118-4588-841c-74a331eba7c2_compact.jpg?v=1709640158"*/}
-                        {/*    alt=""/>*/}
                     </div>
-                    <div>
+                    <SliderImageProduct/>
+                    <div className={"px-8"}>
                         <h3 className={"font-bold"}>
                             Glow in the Dark Stars Print Long Sleeve Kids Night Suit
                         </h3>

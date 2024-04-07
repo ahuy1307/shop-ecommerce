@@ -4,6 +4,10 @@ import "./globals.css";
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const roboto = Roboto({
     weight: ["400", "700"],
