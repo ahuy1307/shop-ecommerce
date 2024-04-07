@@ -2,7 +2,6 @@
 import {useState} from "react";
 import ProductItem from "@/components/product/ProductItem";
 import Link from "next/link";
-import {AiFillFire} from "react-icons/ai";
 import {SwiperSlide} from "swiper/react";
 import SliderProduct from "@/components/home/SliderProduct";
 import ProductView from "@/components/product/ProductView";

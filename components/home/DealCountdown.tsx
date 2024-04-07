@@ -1,7 +1,6 @@
 "use client"
 import {useEffect, useState} from "react";
 import useCountdown from "@/hooks/useCountDown";
-import {set} from "yaml/dist/schema/yaml-1.1/set";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
 function DealCountdown() {

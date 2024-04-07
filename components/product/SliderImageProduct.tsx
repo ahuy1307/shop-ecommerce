@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React from "react";
 import Slider from "react-slick";
 import {GrPrevious, GrNext} from "react-icons/gr";
 
 function SampleNextArrow(props: any) {
-    const {className, style, onClick} = props;
+    const {style, onClick} = props;
     return (
         <GrNext onClick={onClick} style={style}
                 className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 right-[-50px] cursor-pointer"}/>
@@ -11,7 +11,7 @@ function SampleNextArrow(props: any) {
 }
 
 function SamplePrevArrow(props: any) {
-    const {className, style, onClick} = props;
+    const {style, onClick} = props;
     return (
         <GrPrevious onClick={onClick} style={style}
                     className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 left-[-50px] cursor-pointer"}/>

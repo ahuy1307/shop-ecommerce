@@ -1,7 +1,6 @@
 import {AiOutlineEye} from "react-icons/ai";
 import {Dispatch, SetStateAction, useState} from "react";
 import {twMerge} from "tailwind-merge";
-import ProductView from "@/components/product/ProductView";
 import useViewProduct from "@/hooks/useViewProduct";
 
 function ProductItem({setProducts}: { setProducts: Dispatch<SetStateAction<boolean>> }) {
