@@ -49,6 +49,10 @@ function Category() {
                 1024: {
                     slidesPerView: 4,
                     spaceBetween: 20,
+                    grid: {
+                        rows: 1,
+                        fill: "row"
+                    }
                 },
             }}
             slidesPerView={2}
@@ -56,7 +60,7 @@ function Category() {
             className="mySwiper">
             {categories.map((item, index) => {
                 return <SwiperSlide
-                    className={twMerge(`relative`, index == categories.length - 1 && `md:col-start-2 lg:col-auto`)}>
+                    className={twMerge(`relative`)}>
                     <img src="./images/register_img.png" className={"rounded-md"} alt=""/>
                     <div
                         className={"bg-white text-black rounded-lg absolute bottom-4 w-[110px] lg:w-[150px] left-[50%] translate-x-[-50%]"}>

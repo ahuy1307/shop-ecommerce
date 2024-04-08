@@ -6,7 +6,7 @@ function SampleNextArrow(props: any) {
     const {style, onClick} = props;
     return (
         <GrNext onClick={onClick} style={style}
-                className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 right-[-50px] cursor-pointer"}/>
+                className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 right-[-45px] cursor-pointer"}/>
     );
 }
 
@@ -14,7 +14,7 @@ function SamplePrevArrow(props: any) {
     const {style, onClick} = props;
     return (
         <GrPrevious onClick={onClick} style={style}
-                    className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 left-[-50px] cursor-pointer"}/>
+                    className={"absolute top-[50%] translate-y-[-50%] w-6 h-6 z-20 left-[-45px] cursor-pointer"}/>
     );
 }
 
@@ -31,7 +31,7 @@ function SliderImageProduct() {
     };
 
     return (
-        <div className="slider-container slider-image-product px-[80px]">
+        <div className="slider-container slider-image-product px-[40px]">
             <Slider {...settings}>
                 {Array(5).fill(0).map(item => {
                     return <img

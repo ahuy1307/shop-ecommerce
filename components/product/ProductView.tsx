@@ -21,19 +21,19 @@ function ProductView() {
         <div onClick={viewProduct.onClose}
              className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, viewProduct.isOpen && `block`)}></div>
         <div
-            className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] left-[50%] translate-x-[-50%]
+            className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] lg:w-[1024px] left-[50%] translate-x-[-50%]
                 translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-[101]`, viewProduct.isOpen && `block`)}>
             <div className={"pt-8 h-full"}>
                 <div className={"absolute -right-3 -top-3 bg-black p-1"} onClick={viewProduct.onClose}>
                     <AiOutlineClose className={"w-5 h-5 text-white"}/>
                 </div>
-                <div className={"relative overflow-y-scroll h-full"}>
-                    <div className={"px-8"}>
+                <div className={"relative overflow-y-scroll h-full md:flex md:items-center"}>
+                    <div className={"px-8 md:w-[50%]"}>
                         <img
                             src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
                             alt=""/>
+                        <SliderImageProduct/>
                     </div>
-                    <SliderImageProduct/>
                     <div className={"px-8"}>
                         <h3 className={"font-bold"}>
                             Glow in the Dark Stars Print Long Sleeve Kids Night Suit
@@ -41,7 +41,7 @@ function ProductView() {
                         <p className={"mt-2 text-gray-500"}>Availability: In stock</p>
                         <p className={"text-gray-500"}>Product Type: Kids Night Suit</p>
                         <p className={"font-bold mt-2 text-lg"}>Price: $39.00</p>
-                        <p className={"font-semibold mt-4"}>Size: <span className={"font-thin"}>XL</span></p>
+                        <p className={"font-bold mt-4"}>Size: <span className={"font-thin"}>XL</span></p>
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
                             {Array(3).fill(0).map((item, index) => {
                                 return <div
@@ -50,7 +50,7 @@ function ProductView() {
                                 </div>
                             })}
                         </div>
-                        <p className={"font-semibold mt-4"}>Color: <span className={"font-thin"}>Black</span></p>
+                        <p className={"font-bold mt-4"}>Color: <span className={"font-thin"}>Black</span></p>
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
                             {Array(3).fill("#232323").map((item, index) => {
                                 return <div
@@ -67,7 +67,7 @@ function ProductView() {
                                    className={"w-full bg-transparent outline-0 text-black text-center"}/>
                             <AiOutlinePlus className={"cursor-pointer w-6 h-6"}/>
                         </div>
-                        <div className={"w-[calc(100%-70px)]"}>
+                        <div className={"w-[calc(100%-70px)] md:w-full"}>
                             <div className={"flex gap-x-4 items-center pb-3 pt-5"}>
                                 <button className={"bg-black text-white flex-1 font-bold py-3"}>
                                     ADD TO CART

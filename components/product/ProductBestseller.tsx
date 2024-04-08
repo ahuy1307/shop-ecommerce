@@ -3,8 +3,9 @@ import {useState} from "react";
 import ProductItem from "@/components/product/ProductItem";
 import Link from "next/link";
 import {SwiperSlide} from "swiper/react";
-import SliderProduct from "@/components/home/SliderProduct";
+import SliderProduct from "@/components/product/SliderProduct";
 import ProductView from "@/components/product/ProductView";
+import QuickAddProduct from "@/components/product/QuickAddProduct";
 
 function ProductBestseller() {
     const pagination = {
@@ -15,8 +16,9 @@ function ProductBestseller() {
                 '    height: 12px;"></span>';
         },
     };
-    const [products, setProducts] = useState(false)
+    const [products, setProducts] = useState("")
 
+    console.log(products)
     console.log(products)
     return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 z-[99]"}>
         <div className={"flex items-center justify-center gap-x-2 mt-4 relative"}>
@@ -32,7 +34,7 @@ function ProductBestseller() {
             <SliderProduct>
                 {Array(4).fill(0).map((item, index) => {
                     return <SwiperSlide>
-                        <ProductItem setProducts={setProducts}/>
+                        <ProductItem onClick={(id: string) => setProducts(id)}/>
                     </SwiperSlide>
                 })}
             </SliderProduct>
@@ -41,13 +43,14 @@ function ProductBestseller() {
             <SliderProduct>
                 {Array(4).fill(0).map((item, index) => {
                     return <SwiperSlide>
-                        <ProductItem setProducts={setProducts}/>
+                        <ProductItem onClick={(id: string) => setProducts(id)}/>
                     </SwiperSlide>
                 })}
             </SliderProduct>
         </div>
 
         <ProductView/>
+        <QuickAddProduct/>
     </div>
 }
 
