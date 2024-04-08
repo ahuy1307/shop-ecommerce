@@ -50,8 +50,8 @@ function Header() {
                         <div
                             className="flex items-center justify-between mx-3 my-4 px-4 py-2 bg-gray-500/10 rounded-md">
                             <input
-                                className={"outline-0 focus:placeholder:text-[0px] bg-transparent placeholder:text-gray-400"}
-                                type="text" placeholder="Search products..." name="" value=""/>
+                                className={"outline-0 focus:placeholder:text-[0px] w-full pr-4 bg-transparent placeholder:text-gray-400"}
+                                type="text" placeholder="Search products..." name=""/>
                             <BiSearch className="w-5 h-5 cursor-pointer"/>
                         </div>
                         <div className={"flex-col px-4 items-center gap-x-4 border-t border-[#e6e6e6]"}>
