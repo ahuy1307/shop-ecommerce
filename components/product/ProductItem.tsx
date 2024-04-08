@@ -19,6 +19,8 @@ function ProductItem({onClick}: Props) {
     const router = useRouter()
 
     const handleQuickAdd = () => {
+        if (width == undefined) return
+        
         if (width > 768) {
             setIsQuickAdd(true)
         } else quickAddProduct.onOpen()
