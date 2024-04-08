@@ -21,7 +21,7 @@ function Category() {
                 Categories</h2>
             <span className={"absolute w-full h-[1px] bg-[#232323]"}></span>
         </div>
-        <div className={"pt-4"}>
+        <div className={"pt-6 md:pt-1"}>
             <Swiper
                 pagination={pagination}
                 modules={[Grid, Pagination]}
