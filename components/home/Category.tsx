@@ -15,7 +15,7 @@ function Category() {
     };
 
     const [categories, setCategories] = useState([1, 2, 3, 4])
-    return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 category"}>
+    return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 category pt-5"}>
         <div className={"relative my-10 flex justify-center items-center mb-10 mt-12"}>
             <h2 className={"text-xl font-bold md:text-2xl text-center absolute bg-white px-4 z-20"}>Shop by
                 Categories</h2>
