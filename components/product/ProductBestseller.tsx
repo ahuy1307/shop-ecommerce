@@ -25,7 +25,7 @@ function ProductBestseller() {
             <h2 className={"text-xl font-bold text-center md:text-2xl absolute bg-white px-4 z-20"}>Our Bestseller</h2>
             <span className={"absolute w-full h-[1px] bg-[#232323]"}></span>
         </div>
-        <div className={"flex justify-center my-6 mb-10"}>
+        <div className={"flex justify-center my-6 mb-10 mt-6"}>
             <Link className={"inline-block leading-4 border-b border-black"} href={"/product"}>
                 View All
             </Link>
