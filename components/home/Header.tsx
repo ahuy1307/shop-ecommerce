@@ -84,15 +84,18 @@ function Header() {
                 </Link>
             </div>
             <div className="hidden md:flex items-center gap-x-8 xl:gap-x-14">
-                <Link href="/" className={twMerge(`cursor-pointer`, path == "/" && `underline`)}>
+                <Link href="/" className={twMerge(`cursor-pointer`, path == "/" && `border-b border-black`)}>
                     Home
                 </Link>
-                <p className="cursor-pointer">Our Products</p>
+                <Link href="/products"
+                      className={twMerge(`cursor-pointer`, path == "/products" && `border-b border-black`)}>
+                    Shop
+                </Link>
                 <div className="flex items-center border border-black rounded-md px-3 py-1 gap-x-2 cursor-pointer">
-                    <p>Search</p>
+                    <input type={"text"} placeholder={"Search"} className={"w-[100px] outline-none lg:w-[150px]"}/>
                     <BiSearch className="w-5 h-5 cursor-pointer"/>
                 </div>
-                <div className="flex-row items-center justify-center cursor-pointer">
+                <div className="flex-row items-center justify-center cursor-pointer ">
                     <AiOutlineHeart className="w-5 h-5 mx-auto"/>
                     <p>Wishlist</p>
                 </div>

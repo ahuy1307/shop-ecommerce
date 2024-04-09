@@ -11,7 +11,7 @@ body {
 }
 
 .category > .swiper {
-    padding-bottom: 30px !important;
+    padding-bottom: 50px !important;
 }
 
 .product-seller > .swiper {
@@ -26,4 +26,39 @@ body {
 
 .slider-image-product > .slick-slider > .slick-prev:before {
     color: black;
+}
+
+@media only screen and (min-width: 1280px) {
+    .slider-image-product > .slick-vertical {
+        width: 60px;
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .slider-image-product > .slick-vertical {
+        width: 80px;
+    }
+}
+
+.quick-add-item::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+.quick-add-item::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.quick-add-item::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.quick-add-item::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.before-background {
+    background: linear-gradient(0deg, #fffc 38.19%, #fff0);
 }

@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Slider from "react-slick";
 import {GrPrevious, GrNext} from "react-icons/gr";
+import {twMerge} from "tailwind-merge";
+import useWindowDimensions from "@/hooks/useWindowDimenssion";
 
 function SampleNextArrow(props: any) {
     const {style, onClick} = props;
@@ -18,20 +20,34 @@ function SamplePrevArrow(props: any) {
     );
 }
 
-function SliderImageProduct() {
+type Props = {
+    className?: string
+}
+
+function SliderImageProduct({className}: Props) {
+
     const settings = {
         className: "center",
         centerMode: true,
         infinite: true,
         centerPadding: "20px",
+        vertical: true,
         slidesToShow: 3,
         speed: 500,
         nextArrow: <SampleNextArrow/>,
-        prevArrow: <SamplePrevArrow/>
+        prevArrow: <SamplePrevArrow/>,
+        responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                    vertical: false
+                }
+            },
+        ]
     };
 
     return (
-        <div className="slider-container slider-image-product px-[40px]">
+        <div className={twMerge(`slider-container slider-image-product px-[40px]`, className)}>
             <Slider {...settings}>
                 {Array(5).fill(0).map(item => {
                     return <img
