@@ -3,6 +3,7 @@ import useViewProduct from "@/hooks/useViewProduct";
 import {useEffect} from "react";
 import {AiOutlineClose, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
 import SliderImageProduct from "@/components/product/SliderImageProduct";
+import CustomCursor from "@/components/others/CustomCursor";
 
 function ProductView() {
     const viewProduct = useViewProduct()
@@ -19,10 +20,13 @@ function ProductView() {
 
     return <>
         <div onClick={viewProduct.onClose}
-             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, viewProduct.isOpen && `block`)}></div>
+             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, viewProduct.isOpen && `block`)}>
+            <CustomCursor/>
+        </div>
         <div
             className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] lg:w-[1024px] left-[50%] translate-x-[-50%]
                 translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-[101]`, viewProduct.isOpen && `block`)}>
+
             <div className={"pt-8 h-full"}>
                 <div className={"absolute -right-3 -top-3 bg-black p-1"} onClick={viewProduct.onClose}>
                     <AiOutlineClose className={"w-5 h-5 text-white"}/>

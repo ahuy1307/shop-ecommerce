@@ -22,7 +22,7 @@ function ProductDetail() {
                 <img
                     src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
                     alt="" className={"xl:order-2 xl:w-[500px] min-[1400px]:w-[560px]"}/>
-                <SliderImageProduct className={"2xl:relative 2xl:bottom-10"}/>
+                <SliderImageProduct detail={true} className={"2xl:relative 2xl:bottom-10"}/>
             </div>
             <div className={"md:mt-[80px]"}>
                 <h3 className={"font-bold text-lg"}>
@@ -70,13 +70,13 @@ function ProductDetail() {
                 </div>
             </div>
         </div>
-        <div className={"mt-10 pt-4 border-t border-[#d3d3d3] sm:hidden "}>
+        <div className={"mt-10 pt-4 border-t border-[#d3d3d3] sm:hidden px-3"}>
             <div className={"flex justify-between"}>
                 <p className={"font-bold text-[17px]"}>Description</p>
                 <AiOutlineRight className={"w-5 h-5 cursor-pointer"} onClick={() => setShowDesc(true)}/>
             </div>
             <div
-                className={twMerge(`fixed top-20 left-0 bg-white h-[100vh] opacity-0 -z-10 transition-all duration-300`, showDesc && `z-[100] top-0 opacity-100`)}>
+                className={twMerge(`fixed top-0 translate-y-16 left-0 bg-white h-[100vh] opacity-0 -z-10 transition-all duration-300`, showDesc && `z-[100] transition-transform duration-300 translate-y-0 opacity-100`)}>
                 <div className={"flex justify-between border-b border-[#d3d3d3] px-5 py-3"}>
                     <p className={"font-bold uppercase"}>Description</p>
                     <AiOutlineClose className={"w-5 h-5 cursor-pointer"} onClick={() => setShowDesc(false)}/>

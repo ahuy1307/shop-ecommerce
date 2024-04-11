@@ -22,16 +22,17 @@ function SamplePrevArrow(props: any) {
 
 type Props = {
     className?: string
+    detail?: boolean
 }
 
-function SliderImageProduct({className}: Props) {
+function SliderImageProduct({className, detail = false}: Props) {
 
     const settings = {
         className: "center",
         centerMode: true,
         infinite: true,
         centerPadding: "20px",
-        vertical: true,
+        vertical: detail,
         slidesToShow: 3,
         speed: 500,
         nextArrow: <SampleNextArrow/>,

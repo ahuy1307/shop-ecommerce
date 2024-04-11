@@ -1,6 +1,6 @@
-import Header from "@/components/home/Header";
 import Footer from "@/components/footer/Footer";
 import CartCheckout from "@/components/cart/CartCheckout";
+import Header from "@/components/home/Header";
 
 function Cart() {
     return <>

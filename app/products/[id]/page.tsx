@@ -1,6 +1,6 @@
-import Header from "@/components/home/Header";
 import Footer from "@/components/footer/Footer";
 import ProductDetail from "@/components/product/ProductDetail";
+import Header from "@/components/home/Header";
 
 function Page() {
     return <>

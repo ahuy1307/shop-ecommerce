@@ -1,6 +1,6 @@
 import AuthForm from "@/components/auth/AuthForm";
-import Header from "@/components/home/Header";
 import Footer from "@/components/footer/Footer";
+import Header from "@/components/home/Header";
 
 function Auth() {
     return (

@@ -24,7 +24,7 @@ function ProductBestseller() {
             <span className={"absolute w-full h-[1px] bg-[#232323]"}></span>
         </div>
         <div className={"flex justify-center my-6 mb-10 mt-10"}>
-            <Link className={"inline-block leading-4 border-b border-black"} href={"/product"}>
+            <Link className={"inline-block leading-4 border-b border-black"} href={"/products"}>
                 View All
             </Link>
         </div>

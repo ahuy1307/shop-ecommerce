@@ -11,10 +11,14 @@ import {useState} from "react";
 import {twMerge} from "tailwind-merge";
 import {usePathname} from "next/navigation";
 import {listSearchTrending} from "@/constant";
+import {listUserSetting} from "@/components/home/header_info";
+import DropdownUserInfo from "@/components/others/DropdownUserInfo";
 
 function Header() {
     const [showMenu, setShowMenu] = useState("");
     const path = usePathname();
+    const user = true;
+
     return (
         <header
             className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
@@ -27,24 +31,46 @@ function Header() {
             </div>
             <div
                 className={twMerge(` fixed top-0 translate-x-[-100%] transition-all duration-500 left-0 max-w-[400px] w-[350px] bg-white h-full`, showMenu != "" && `block translate-x-0 `)}>
-                <div className="flex justify-between items-center px-3 border-b border-[#e6e6e6] py-3">
+                <div className="flex justify-between items-center px-4 border-b border-[#e6e6e6] py-3">
                     <p className="font-bold text-xl">{showMenu == "bar" ? `Menu` : `Search`}</p>
                     <AiOutlineClose className="w-5 h-5 cursor-pointer" onClick={() => setShowMenu("")}/>
                 </div>
                 {showMenu == "bar" ? (
-                    <>
-                        <Link href="/auth"
-                              className="flex items-center text-base gap-x-3 border-b border-[#e6e6e6] py-3 pl-3"
-                              onClick={() => setShowMenu("")}>
-                            <FaRegUserCircle className="w-5 h-5"/>
-                            <p>Sign In / Sign Up</p>
-                        </Link>
-                        <div className="flex items-center gap-x-3 border-b border-[#e6e6e6] py-3 pl-3 cursor-pointer"
-                             onClick={() => setShowMenu("")}>
-                            <AiOutlineHeart className="w-5 h-5"/>
-                            <p>My Wish List</p>
-                        </div>
-                    </>
+                    !user ?
+                        <>
+                            <Link href="/auth"
+                                  className="flex items-center text-base gap-x-3 border-b border-[#e6e6e6] py-3 pl-4"
+                                  onClick={() => setShowMenu("")}>
+                                <FaRegUserCircle className="w-5 h-5"/>
+                                <p>Sign In / Sign Up</p>
+                            </Link>
+                            <Link href={"/auth"}
+                                  className="flex items-center gap-x-3 border-b border-[#e6e6e6] py-3 pl-4 cursor-pointer"
+                                  onClick={() => setShowMenu("")}>
+                                <AiOutlineHeart className="w-5 h-5"/>
+                                <p>My Wish List</p>
+                            </Link>
+                        </> :
+                        <>
+                            <Link href={"/user"} className={"flex mt-6 gap-x-4 pl-4 items-center"}>
+                                <img src="./images/login_img.png"
+                                     className={"w-[70px] h-[70px] rounded-full object-cover"}
+                                     alt=""/>
+                                <div className={"flex flex-col gap-y-1"}>
+                                    <p>Hello 👋</p>
+                                    <p className={"font-bold"}>Robert Fox</p>
+                                </div>
+                            </Link>
+                            <div className={"mt-6"}>
+                                {listUserSetting.map(item => {
+                                    return <Link href={item.link}
+                                                 className={twMerge(`flex items-center gap-x-4 py-3 pl-4 cursor-pointer`, path == item.link && `bg-gray-500/10`)}>
+                                        <item.icon className="w-5 h-5"/>
+                                        <p>{item.title}</p>
+                                    </Link>
+                                })}
+                            </div>
+                        </>
                 ) : (
                     <>
                         <div
@@ -75,10 +101,13 @@ function Header() {
                 <Logo className="w-[90px] h-14 cursor-pointer"/>
             </Link>
             <div className="flex items-center gap-x-8 md:hidden">
-                <Link href={"/auth"}>
-                    <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
-                </Link>
-                <Link href={"/cart"} className={"relative"}>
+                {!user ? <Link href={"/auth"}>
+                        <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
+                    </Link> :
+                    <Link href={"/auth"}>
+                        <AiOutlineHeart className="w-6 h-6 cursor-pointer"/>
+                    </Link>}
+                <Link href={"/cart"} className={twMerge(`relative z-0`, showMenu && `-z-10`)}>
                     <CartIcon className="w-6 h-6 cursor-pointer"/>
                     <p className={"bg-black text-white absolute px-2 rounded-full -top-3 -right-3 "}>0</p>
                 </Link>
@@ -103,9 +132,18 @@ function Header() {
                     <CartIcon className="w-5 h-5 mx-auto"/>
                     <p>Cart</p>
                 </Link>
-                <Link href="/auth" className="bg-black text-white rounded-md px-6 py-2">
-                    Login
-                </Link>
+                {!user ?
+                    <Link href="/auth" className="bg-black text-white rounded-md px-6 py-2">
+                        Login
+                    </Link> :
+                    <DropdownUserInfo>
+                        <Link href="/user">
+                            <img src="./images/login_img.png"
+                                 className={"rounded-full w-[50px] h-[50px] object-cover"}
+                                 alt=""/>
+                        </Link>
+                    </DropdownUserInfo>
+                }
             </div>
         </header>
     );
