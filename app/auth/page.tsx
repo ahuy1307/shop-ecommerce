@@ -1,3 +1,4 @@
+"use client"
 import AuthForm from "@/components/auth/AuthForm";
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/home/Header";
