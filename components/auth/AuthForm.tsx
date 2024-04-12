@@ -1,11 +1,13 @@
 "use client";
 import {useState} from "react";
 import {FcGoogle} from "react-icons/fc";
-import {BsFacebook} from "react-icons/bs";
+import {BsCheckSquareFill, BsFacebook} from "react-icons/bs";
+import {log} from "node:util";
+import {twMerge} from "tailwind-merge";
 
 function AuthForm() {
     const [isLogin, setIsLogin] = useState(true);
-
+    const [checkTerm, setCheckTerm] = useState(false)
     return (
         <div className="flex gap-x-4 items-center w-full justify-center h-screen px-4 md:px-6 text-sm">
             <div className="w-full h-screen overflow-hidden hidden md:block py-[80px]">
@@ -23,14 +25,14 @@ function AuthForm() {
                                     First Name
                                 </label>
                                 <input id="firstName" required type="text" placeholder="Robert"
-                                       className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] border border-neutral-900"/>
+                                       className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
                             </div>
                             <div className="mb-4 flex-1">
                                 <label className="block mb-2" htmlFor="lastName">
                                     Last Name
                                 </label>
                                 <input id="lastName" required type="text" placeholder="Fox"
-                                       className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] w-full border border-neutral-900"/>
+                                       className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none w-full border border-neutral-900"/>
                             </div>
                         </div>
                     )}
@@ -39,15 +41,28 @@ function AuthForm() {
                             Email Address
                         </label>
                         <input id="email" required type="text" placeholder="example@gmail.com"
-                               className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] border border-neutral-900"/>
+                               className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
                     </div>
                     <div className="mb-4">
                         <label className="block mb-2" htmlFor="password">
                             Pasword
                         </label>
                         <input id="password" required type="text" placeholder="*****************"
-                               className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] border border-neutral-900"/>
+                               className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
                     </div>
+                    {!isLogin && <div className={"flex items-center gap-x-3 mb-4 relative"}>
+                        <input type="checkbox" required={true}
+                               className={twMerge(`w-[18px] h-[18px]`, !checkTerm ? `visible` : `invisible`)}
+                               id={"term"}
+                               checked={checkTerm}
+                               onChange={e => setCheckTerm(e.currentTarget.checked)}/>
+
+                        <label htmlFor={"term"}>I agree to the <strong>Terms & Conditions</strong></label>
+                        {checkTerm && <div className={"absolute top-[50%] translate-y-[-50%] left-0"}
+                                           onClick={() => setCheckTerm(false)}>
+                            <BsCheckSquareFill className={"w-[18px] h-[18px]"}/>
+                        </div>}
+                    </div>}
                     {isLogin && <p className="float-right underline cursor-pointer mb-4">Forgot Password?</p>}
                     <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4">
                         {isLogin ? `Sign In` : `Sing Up`}

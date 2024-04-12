@@ -1,8 +1,12 @@
 import {FaRegEdit} from "react-icons/fa";
 import {EditIcon} from "@/icon";
+import UpdateUserInfoModal from "@/components/user/modal/UpdateUserInfoModal";
+import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 
 function UserInfomation() {
+    const updateUserInfo = useUpdateUserInfo()
     return <div>
+        <h2 className={"text-xl font-bold mt-4"}>MY PROFILE</h2>
         <div className={"flex items-center justify-between mt-6"}>
             <div className={"relative w-[80px] h-[80px]"}>
                 <img src="./images/login_img.png" className={"w-full h-full object-cover rounded-full"} alt=""/>
@@ -11,7 +15,8 @@ function UserInfomation() {
                     <EditIcon className={"w-4 h-4"}/>
                 </div>
             </div>
-            <div className={"bg-black text-white px-4 gap-x-2 py-3 rounded-lg flex items-center"}>
+            <div className={"bg-black text-white px-4 gap-x-2 py-3 rounded-lg flex items-center cursor-pointer"}
+                 onClick={updateUserInfo.onOpen}>
                 <EditIcon className={"w-4 h-4"}/>
                 <p className={"text-sm"}>Edit Profile</p>
             </div>
@@ -46,7 +51,7 @@ function UserInfomation() {
                 </div>
             </div>
             <div className="flex items-center gap-x-4 mt-4">
-                <div className={"w-[60%]"}>
+                <div className={"w-[50%]"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                         Date Of Birth
                     </label>
@@ -56,7 +61,7 @@ function UserInfomation() {
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                         Phone
                     </label>
-                    <p className={"border border-black rounded-lg py-2 px-4"}>0905369675</p>
+                    <p className={"border border-black rounded-lg py-2 px-4"}>(+84) 905369675</p>
                 </div>
             </div>
             <div className={"mt-4"}>
@@ -66,6 +71,7 @@ function UserInfomation() {
                 <p className={"border border-black rounded-lg py-2 px-4"}>2464 Royal Ln, Mesa, New Jerry 45463</p>
             </div>
         </div>
+        <UpdateUserInfoModal/>
     </div>
 }
 

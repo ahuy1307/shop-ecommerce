@@ -33,22 +33,26 @@ export const listUserSetting = [
     {
         icon: GoHome,
         title: "Home",
-        link: "/"
+        link: "/",
+        type: null
     },
     {
         icon: HiOutlineUser,
         title: "Personal Information",
-        link: "/user"
+        link: "/user",
+        type: null
     },
     {
         icon: BsBoxSeam,
         title: "My Orders",
-        link: "/user?type=order"
+        link: "/user?type=order",
+        type: "order"
     },
     {
         icon: BiMap,
         title: "Manage Address",
-        link: "/user?type=address"
+        link: "/user?type=address",
+        type: "address"
     },
     // {
     //     icon: IoNotificationsOutline,
@@ -57,11 +61,13 @@ export const listUserSetting = [
     {
         icon: AiOutlineSetting,
         title: "Settings",
-        link: "/user?type=setting"
+        link: "/user?type=setting",
+        type: "setting"
     },
     {
         icon: IoExitOutline,
         title: "Logout",
-        link: "/user?type=setting"
+        link: "/user?type=logout",
+        type: "logout",
     }
 ]

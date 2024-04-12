@@ -9,15 +9,17 @@ import {FaRegUserCircle} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai";
 import {useState} from "react";
 import {twMerge} from "tailwind-merge";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {listSearchTrending} from "@/constant";
 import {listUserSetting} from "@/components/home/header_info";
 import DropdownUserInfo from "@/components/others/DropdownUserInfo";
 
 function Header() {
     const [showMenu, setShowMenu] = useState("");
-    const path = usePathname();
+    const path = usePathname()
+    const type = useSearchParams().get("type")
     const user = true;
+    const router = useRouter()
 
     return (
         <header
@@ -63,11 +65,15 @@ function Header() {
                             </Link>
                             <div className={"mt-6"}>
                                 {listUserSetting.map(item => {
-                                    return <Link href={item.link}
-                                                 className={twMerge(`flex items-center gap-x-4 py-3 pl-4 cursor-pointer`, path == item.link && `bg-gray-500/10`)}>
+                                    return <div onClick={() => {
+                                        setShowMenu("")
+                                        setTimeout(() => router.push(item.link), 500)
+                                    }}
+                                                className={twMerge(`flex items-center gap-x-4 py-3 pl-4 cursor-pointer`, type == null && item.type == null && path == item.link && `bg-gray-500/10`,
+                                                    item.type !== null && item.link.includes(path) && type == item.type && `bg-gray-500/10`)}>
                                         <item.icon className="w-5 h-5"/>
                                         <p>{item.title}</p>
-                                    </Link>
+                                    </div>
                                 })}
                             </div>
                         </>
@@ -76,7 +82,7 @@ function Header() {
                         <div
                             className="flex items-center justify-between mx-3 my-4 px-4 py-2 bg-gray-500/10 rounded-md">
                             <input
-                                className={"outline-0 focus:placeholder:text-[0px] w-full pr-4 bg-transparent placeholder:text-gray-400"}
+                                className={"outline-0 focus:placeholder:text-[0px] w-full pr-4 bg-transparent placeholder:text-gray-400 outline-none"}
                                 type="text" placeholder="Search products..." name=""/>
                             <BiSearch className="w-5 h-5 cursor-pointer"/>
                         </div>
@@ -113,12 +119,17 @@ function Header() {
                 </Link>
             </div>
             <div className="hidden md:flex items-center gap-x-8 xl:gap-x-14">
-                <Link href="/" className={twMerge(`cursor-pointer`, path == "/" && `border-b border-black`)}>
+                <Link href="/"
+                      className={twMerge(`cursor-pointer block relative group px-1`)}>
                     Home
+                    <span
+                        className={"absolute bottom-0 h-[2px] w-0 bg-black left-0 group-hover:w-full transition-all duration-500"}></span>
                 </Link>
                 <Link href="/products"
-                      className={twMerge(`cursor-pointer`, path == "/products" && `border-b border-black`)}>
+                      className={twMerge(`cursor-pointer relative block group px-1`)}>
                     Shop
+                    <span
+                        className={"absolute bottom-0 h-[2px] w-0 bg-black left-0 group-hover:w-full transition-all duration-500"}></span>
                 </Link>
                 <div className="flex items-center border border-black rounded-md px-3 py-1 gap-x-2 cursor-pointer">
                     <input type={"text"} placeholder={"Search"} className={"w-[100px] outline-none lg:w-[150px]"}/>
@@ -137,11 +148,9 @@ function Header() {
                         Login
                     </Link> :
                     <DropdownUserInfo>
-                        <Link href="/user">
-                            <img src="./images/login_img.png"
-                                 className={"rounded-full w-[50px] h-[50px] object-cover"}
-                                 alt=""/>
-                        </Link>
+                        <img src="./images/login_img.png"
+                             className={"rounded-full w-[50px] h-[50px] object-cover"}
+                             alt=""/>
                     </DropdownUserInfo>
                 }
             </div>

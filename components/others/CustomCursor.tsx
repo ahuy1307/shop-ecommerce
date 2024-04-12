@@ -18,7 +18,7 @@ const CustomCursor = () => {
     }, []);
 
     return (
-        <div className="custom-cursor bg-white rounded-full cursor-grab"
+        <div className="custom-cursor bg-white rounded-full cursor-grab hidden lg:block"
              style={{left: cursorPosition.x - 20, top: cursorPosition.y - 20}}>
             <AiOutlineClose
                 className={"absolute top-[50%] translate-x-[-50%] translate-y-[-50%] w-5 h-5 left-[50%]"}/>
