@@ -45,7 +45,7 @@ function AuthForm() {
                     </div>
                     <div className="mb-4">
                         <label className="block mb-2" htmlFor="password">
-                            Pasword
+                            Password
                         </label>
                         <input id="password" required type="text" placeholder="*****************"
                                className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>

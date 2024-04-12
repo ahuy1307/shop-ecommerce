@@ -147,11 +147,13 @@ function Header() {
                     <Link href="/auth" className="bg-black text-white rounded-md px-6 py-2">
                         Login
                     </Link> :
-                    <DropdownUserInfo>
-                        <img src="./images/login_img.png"
-                             className={"rounded-full w-[50px] h-[50px] object-cover"}
-                             alt=""/>
-                    </DropdownUserInfo>
+                    <Link href="/user">
+                        <DropdownUserInfo>
+                            <img src="./images/login_img.png"
+                                 className={"rounded-full w-[50px] h-[50px] object-cover"}
+                                 alt=""/>
+                        </DropdownUserInfo>
+                    </Link>
                 }
             </div>
         </header>

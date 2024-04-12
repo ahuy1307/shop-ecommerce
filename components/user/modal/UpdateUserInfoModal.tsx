@@ -1,6 +1,7 @@
 import {twMerge} from "tailwind-merge";
 import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 import {useEffect} from "react";
+import CustomCursor from "@/components/others/CustomCursor";
 
 function UpdateUserInfoModal() {
     const updateUserInfo = useUpdateUserInfo()
@@ -16,9 +17,11 @@ function UpdateUserInfoModal() {
 
     return <>
         <div onClick={updateUserInfo.onClose}
-             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, updateUserInfo.isOpen && `block`)}></div>
+             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, updateUserInfo.isOpen && `block`)}>
+            <CustomCursor/>
+        </div>
         <div
-            className={twMerge(`fixed top-[50%] w-[70vw] min-w-[95%] sm:min-w-[350px] max-w-[450px] left-[50%] translate-x-[-50%]
+            className={twMerge(`fixed top-[50%] w-[70vw] min-w-[95%] sm:min-w-[350px] max-w-[600px] md:px-4 lg:px-6 xl:px-8 left-[50%] translate-x-[-50%]
                 translate-y-[-50%] bg-white transition-all origin-center hidden z-[101] px-4`, updateUserInfo.isOpen && `block`)}>
             <h2 className={"font-bold mt-4 mb-6 text-lg"}>Update profile</h2>
             <div className={"flex mb-4"}>

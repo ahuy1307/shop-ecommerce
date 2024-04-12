@@ -6,7 +6,6 @@ import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 function UserInfomation() {
     const updateUserInfo = useUpdateUserInfo()
     return <div>
-        <h2 className={"text-xl font-bold mt-4"}>MY PROFILE</h2>
         <div className={"flex items-center justify-between mt-6"}>
             <div className={"relative w-[80px] h-[80px]"}>
                 <img src="./images/login_img.png" className={"w-full h-full object-cover rounded-full"} alt=""/>

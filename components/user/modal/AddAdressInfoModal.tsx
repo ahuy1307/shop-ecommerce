@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
 import useCreateUserAddress from "@/hooks/useCreateUserAddress";
 import {BsCheckSquareFill} from "react-icons/bs";
+import CustomCursor from "@/components/others/CustomCursor";
 
 function AddAdressInfoModal() {
     const createUserAddress = useCreateUserAddress()
@@ -18,7 +19,9 @@ function AddAdressInfoModal() {
 
     return <>
         <div onClick={createUserAddress.onClose}
-             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, createUserAddress.isOpen && `block`)}></div>
+             className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500 z-[100] cursor-none`, createUserAddress.isOpen && `block`)}>
+            <CustomCursor/>
+        </div>
         <div
             className={twMerge(`fixed top-[50%] w-[70vw] min-w-[95%] sm:min-w-[350px] max-w-[450px] left-[50%] translate-x-[-50%]
                 translate-y-[-50%] bg-white transition-all origin-center hidden z-[101] px-4`, createUserAddress.isOpen && `block`)}>
@@ -96,13 +99,13 @@ function AddAdressInfoModal() {
                        checked={checkDefault}
                        onChange={e => setCheckDefault(e.currentTarget.checked)}/>
 
-                <label htmlFor={"term"}>Use as my default address</label>
+                <label htmlFor={"term"} onClick={() => setCheckDefault(!checkDefault)}>Use as my default address</label>
                 {checkDefault && <div className={"absolute top-[50%] translate-y-[-50%] left-0"}
                                       onClick={() => setCheckDefault(false)}>
                     <BsCheckSquareFill className={"w-[18px] h-[18px]"}/>
                 </div>}
             </div>
-            <div className={"flex gap-x-4 items-center pb-4 pt-6 w-full px-8"}>
+            <div className={"flex gap-x-4 items-center pb-4 pt-6 w-full px-4"}>
                 <button className={"border border-[#acacac] font-bold py-3 flex-1"}
                         onClick={createUserAddress.onClose}>
                     CANCEL

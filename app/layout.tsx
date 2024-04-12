@@ -7,6 +7,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ToastProvider from "@/contexts/ToastProvider";
 
 
 const roboto = Roboto({
@@ -28,7 +29,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={roboto.className}>{children}</body>
+        <body className={roboto.className}>
+        <ToastProvider/>
+        {children}</body>
         </html>
     );
 }
