@@ -1,7 +1,7 @@
 import {FreeShippingIcon, QualityIcon, RankIcon, SupportCallIcon} from "@/icon";
 import {HiOutlineUser} from "react-icons/hi";
 import {BsBoxSeam} from "react-icons/bs";
-import {AiOutlineSetting, AiOutlineShoppingCart} from "react-icons/ai";
+import {AiOutlineHeart, AiOutlineSetting, AiOutlineShoppingCart} from "react-icons/ai";
 import {BiMap} from "react-icons/bi";
 import {GoHome} from "react-icons/go";
 import {IoExitOutline} from "react-icons/io5";
@@ -47,6 +47,12 @@ export const listUserSetting = [
         title: "My Orders",
         link: "/user?type=order",
         type: "order"
+    },
+    {
+        icon: AiOutlineHeart,
+        title: "My Wishlists",
+        link: "/user?type=wish",
+        type: "wish"
     },
     {
         icon: BiMap,

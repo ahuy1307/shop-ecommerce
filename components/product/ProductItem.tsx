@@ -51,7 +51,7 @@ function ProductItem({onClick}: Props) {
                     onClick={handleQuickAdd}
                     className={twMerge(`lg:absolute bottom-0 left-[50%] 
                     lg:translate-x-[-50%] lg:-bottom-2 bg-white text-center border py-2 border-black w-full lg:opacity-0 transition-all duration-200 hover:bg-black hover:text-white`,
-                        checkHover && `lg:opacity-100 lg:bottom-0`, isQuickAdd && `duration-0 transition-none invisible`)}>
+                        checkHover && `lg:opacity-100 lg:bottom-2`, isQuickAdd && `duration-0 transition-none invisible`)}>
                     <span className={"font-bold"}>QUICK ADD</span>
                 </div>
                 <div
@@ -83,7 +83,7 @@ function ProductItem({onClick}: Props) {
                             <AiOutlinePlus className={"cursor-pointer w-6 h-6"}/>
                         </div>
                     </div>
-                    <div className={"flex gap-x-4 items-center w-full relative"}>
+                    <div className={"flex gap-x-4 items-center w-full relative -top-2"}>
                         <span
                             className={"absolute bg-red-500 top-[-30px] left-[50%] w-[85%] h-[30px] translate-x-[-50%] before-background"}></span>
                         <button className={"bg-black text-white font-bold py-2 flex-1"}>
@@ -96,12 +96,12 @@ function ProductItem({onClick}: Props) {
                     </div>
                 </div>
             </div>
-            <div className={"cursor-pointer text-center mt-4"}>
+            <Link href={"/products/1"} className={"cursor-pointer text-center mt-4"}>
                 <h3 className={"text-sm hover:underline"}>
                     Glow in the Dark Football Print Long Sleeve Kids Night Suit
                 </h3>
-                <span className={"text-sm font-bold"}>$60.00</span>
-            </div>
+                <span className={"text-sm font-bold mx-auto block w-full"}>$60.00</span>
+            </Link>
         </div>
     </>
 }

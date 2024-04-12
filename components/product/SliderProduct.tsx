@@ -21,7 +21,6 @@ function SliderProduct({children}: { children: ReactNode }) {
                 fill: "row"
             }
         }
-        slidesPerGroup={2}
         breakpoints={{
             640: {
                 slidesPerView: 2,
@@ -40,6 +39,7 @@ function SliderProduct({children}: { children: ReactNode }) {
             },
             1024: {
                 slidesPerView: 4,
+                spaceBetween: 40,
                 grid: {
                     rows: 1,
                     fill: "row"
@@ -47,6 +47,7 @@ function SliderProduct({children}: { children: ReactNode }) {
             },
             1700: {
                 slidesPerView: 4,
+                spaceBetween: 60,
                 grid: {
                     rows: 1,
                     fill: "row"

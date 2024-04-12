@@ -1,18 +1,21 @@
 import {twMerge} from "tailwind-merge";
 import useViewProduct from "@/hooks/useViewProduct";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import {AiOutlineClose, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
 import SliderImageProduct from "@/components/product/SliderImageProduct";
 import CustomCursor from "@/components/others/CustomCursor";
 
 function ProductView() {
     const viewProduct = useViewProduct()
+    const modalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
-        if (viewProduct.isOpen)
+        if (viewProduct.isOpen) {
+            if (modalRef.current)
+                modalRef.current.scrollTop = 0
             document.querySelector<HTMLElement>("body")!.style.overflowY = "hidden"
-        else
+        } else
             document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
 
     }, [viewProduct.isOpen])
@@ -24,14 +27,14 @@ function ProductView() {
             <CustomCursor/>
         </div>
         <div
+
             className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] lg:w-[1024px] left-[50%] translate-x-[-50%]
                 translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-[101]`, viewProduct.isOpen && `block`)}>
-
             <div className={"pt-8 h-full"}>
                 <div className={"absolute -right-3 -top-3 bg-black p-1"} onClick={viewProduct.onClose}>
                     <AiOutlineClose className={"w-5 h-5 text-white"}/>
                 </div>
-                <div className={"relative overflow-y-scroll h-full md:flex md:items-center"}>
+                <div className={"relative overflow-y-scroll h-full md:flex md:items-center"} ref={modalRef}>
                     <div className={"px-8 md:w-[50%]"}>
                         <img
                             src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"

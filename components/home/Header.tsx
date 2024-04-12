@@ -64,13 +64,14 @@ function Header() {
                                 </div>
                             </Link>
                             <div className={"mt-6"}>
-                                {listUserSetting.map(item => {
+                                {listUserSetting.map((item, index) => {
                                     return <div onClick={() => {
                                         setShowMenu("")
                                         setTimeout(() => router.push(item.link), 500)
                                     }}
                                                 className={twMerge(`flex items-center gap-x-4 py-3 pl-4 cursor-pointer`, type == null && item.type == null && path == item.link && `bg-gray-500/10`,
-                                                    item.type !== null && item.link.includes(path) && type == item.type && `bg-gray-500/10`)}>
+                                                    item.type !== null && item.link.includes(path) &&
+                                                    type == item.type && `bg-gray-500/10`, index == 3 && `hidden`)}>
                                         <item.icon className="w-5 h-5"/>
                                         <p>{item.title}</p>
                                     </div>
@@ -110,7 +111,7 @@ function Header() {
                 {!user ? <Link href={"/auth"}>
                         <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
                     </Link> :
-                    <Link href={"/auth"}>
+                    <Link href={"/user?type=wish"}>
                         <AiOutlineHeart className="w-6 h-6 cursor-pointer"/>
                     </Link>}
                 <Link href={"/cart"} className={twMerge(`relative z-0`, showMenu && `-z-10`)}>
@@ -135,10 +136,10 @@ function Header() {
                     <input type={"text"} placeholder={"Search"} className={"w-[100px] outline-none lg:w-[150px]"}/>
                     <BiSearch className="w-5 h-5 cursor-pointer"/>
                 </div>
-                <div className="flex-row items-center justify-center cursor-pointer ">
+                <Link href={"/user?type=wish"} className="flex-row items-center justify-center cursor-pointer ">
                     <AiOutlineHeart className="w-5 h-5 mx-auto"/>
                     <p>Wishlist</p>
-                </div>
+                </Link>
                 <Link href="/cart" className="cursor-pointer">
                     <CartIcon className="w-5 h-5 mx-auto"/>
                     <p>Cart</p>

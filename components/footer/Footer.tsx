@@ -58,7 +58,7 @@ function Footer() {
                         discounts</p>
                     <div className={"flex justify-between mt-4 gap-x-5 pb-20"}>
                         <input
-                            className={"bg-black outline-0 placeholder:text-[#cfcfcf] placeholder:text-sm flex-1 pl-4 py-2"}
+                            className={"bg-black outline-0 placeholder:text-[#cfcfcf] text-white placeholder:text-sm flex-1 pl-4 py-2"}
                             placeholder={"Enter your email address"}/>
                         <button className={"bg-white text-black uppercase font-bold px-5 text-sm"}>Submit</button>
                     </div>
