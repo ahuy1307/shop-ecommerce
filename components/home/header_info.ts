@@ -73,7 +73,7 @@ export const listUserSetting = [
     {
         icon: IoExitOutline,
         title: "Logout",
-        link: "/user?type=logout",
+        link: "/auth",
         type: "logout",
     }
 ]

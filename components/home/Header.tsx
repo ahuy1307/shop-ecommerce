@@ -13,14 +13,16 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {listSearchTrending} from "@/constant";
 import {listUserSetting} from "@/components/home/header_info";
 import DropdownUserInfo from "@/components/others/DropdownUserInfo";
+import {useAuth} from "@/contexts/AuthProvider";
 
 function Header() {
     const [showMenu, setShowMenu] = useState("");
     const path = usePathname()
     const type = useSearchParams().get("type")
-    const user = true;
+    const {user, logout} = useAuth();
     const router = useRouter()
 
+    console.log(user)
     return (
         <header
             className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
@@ -55,17 +57,18 @@ function Header() {
                         </> :
                         <>
                             <Link href={"/user"} className={"flex mt-6 gap-x-4 pl-4 items-center"}>
-                                <img src="./images/login_img.png"
-                                     className={"w-[70px] h-[70px] rounded-full object-cover"}
+                                <img src={user.avatar != null ? user.avatar : `./images/no_avatar_user.jpg`}
+                                     className={"w-[60px] h-[60px] rounded-full object-cover"}
                                      alt=""/>
                                 <div className={"flex flex-col gap-y-1"}>
                                     <p>Hello 👋</p>
-                                    <p className={"font-bold"}>Robert Fox</p>
+                                    <p className={"font-bold"}>{user.name}</p>
                                 </div>
                             </Link>
                             <div className={"mt-6"}>
                                 {listUserSetting.map((item, index) => {
                                     return <div onClick={() => {
+                                        index == listUserSetting.length - 1 && logout()
                                         setShowMenu("")
                                         setTimeout(() => router.push(item.link), 500)
                                     }}
