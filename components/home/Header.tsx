@@ -22,7 +22,6 @@ function Header() {
     const {user, logout} = useAuth();
     const router = useRouter()
 
-    console.log(user)
     return (
         <header
             className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
@@ -48,12 +47,6 @@ function Header() {
                                 <FaRegUserCircle className="w-5 h-5"/>
                                 <p>Sign In / Sign Up</p>
                             </Link>
-                            <Link href={"/auth"}
-                                  className="flex items-center gap-x-3 border-b border-[#e6e6e6] py-3 pl-4 cursor-pointer"
-                                  onClick={() => setShowMenu("")}>
-                                <AiOutlineHeart className="w-5 h-5"/>
-                                <p>My Wish List</p>
-                            </Link>
                         </> :
                         <>
                             <Link href={"/user"} className={"flex mt-6 gap-x-4 pl-4 items-center"}>
@@ -68,7 +61,12 @@ function Header() {
                             <div className={"mt-6"}>
                                 {listUserSetting.map((item, index) => {
                                     return <div onClick={() => {
-                                        index == listUserSetting.length - 1 && logout()
+                                        if (index == listUserSetting.length - 1) {
+                                            logout()
+                                            setShowMenu("")
+                                            router.push(item.link)
+                                            return
+                                        }
                                         setShowMenu("")
                                         setTimeout(() => router.push(item.link), 500)
                                     }}

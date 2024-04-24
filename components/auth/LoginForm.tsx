@@ -1,10 +1,12 @@
-import {twMerge} from "tailwind-merge";
-import {BsCheckSquareFill} from "react-icons/bs";
+"use client"
 import {AiOutlineGithub} from "react-icons/ai";
 import {FcGoogle} from "react-icons/fc";
-import {FormEvent, FormEventHandler, useReducer, useState} from "react";
+import {FormEvent, FormEventHandler, useEffect, useReducer, useState} from "react";
 import {useRouter} from "next/navigation";
 import {z} from "zod";
+import {useAuth} from "@/contexts/AuthProvider";
+import toast from "react-hot-toast";
+import {ClipLoader} from "react-spinners";
 
 const formReducer = (state: Record<string, string>, event: React.ChangeEvent<HTMLInputElement>) => {
     return {
@@ -16,31 +18,16 @@ const User = z
     .object({
         email: z
             .string({
-                required_error: "Email is required",
+                required_error: "Field is required",
             })
             .email(),
-        password: z
-            .string({
-                required_error: "Password is required",
-                invalid_type_error:
-                    "Password must be a string with a minimum length of 6 and a maximum length of 20",
-            })
-            .min(6, {
-                message: "Must contain at least 6 characters"
-            })
-            .max(20, {
-                message: "Must contain at most 20 characters",
-            })
-            .refine(value => /^[A-Z]/.test(value), {
-                message: "Password must start with an uppercase letter",
-            }),
     });
 
 function LoginForm({onClick}: { onClick: () => void }) {
     const [formData, setFormData] = useReducer(formReducer, {});
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const router = useRouter()
-
+    const {login, isLoading} = useAuth()
     const handleLoginSocialMedia = (url: string | null) => {
         if (url == null) return;
 
@@ -49,8 +36,9 @@ function LoginForm({onClick}: { onClick: () => void }) {
         router.push(url);
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         const parsedUser = User.safeParse(formData);
         if (!parsedUser.success) {
             const error = parsedUser.error;
@@ -64,6 +52,15 @@ function LoginForm({onClick}: { onClick: () => void }) {
             return setFormErrors(newErrors);
         }
         setFormErrors({});
+        try {
+            const isSuccess = await login(formData.email, formData.password);
+            if (isSuccess) {
+                localStorage.removeItem("authFormData")
+                router.push("/")
+            }
+        } catch (e) {
+
+        }
     }
 
     return <>
@@ -73,10 +70,11 @@ function LoginForm({onClick}: { onClick: () => void }) {
                     Email Address
                 </label>
                 <input id="email"
-                       name="email"
                        onChange={setFormData}
+                       name="email"
+                       disabled={isLoading}
                        type="text" placeholder="example@gmail.com"
-                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
+                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.email && <p className="text-red-600 mt-1">{formErrors.email}</p>}
             </div>
             <div className="mb-4">
@@ -86,13 +84,15 @@ function LoginForm({onClick}: { onClick: () => void }) {
                 <input id="password"
                        name="password"
                        onChange={setFormData}
+                       disabled={isLoading}
                        type="password" placeholder="*****************"
-                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
-                {formErrors.password && <p className="text-red-600 mt-1">{formErrors.password}</p>}
+                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
             </div>
             <p className="float-right underline cursor-pointer mb-4">Forgot Password?</p>
-            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4">
-                Sign In
+            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-40"
+                    disabled={isLoading}>
+                {!isLoading && <p>Sign In</p>}
+                <ClipLoader color={"white"} loading={isLoading}/>
             </button>
         </form>
         <div className={"xl:w-[550px]"}>
@@ -106,8 +106,11 @@ function LoginForm({onClick}: { onClick: () => void }) {
         </div>
 
         <div className="flex justify-center gap-x-2 xl:w-[550px]">
-            <p>`You don't have account?` </p>
-            <p onClick={onClick} className="font-bold cursor-pointer">
+            <p>You don't have account?</p>
+            <p onClick={() => {
+                localStorage.removeItem("authFormData");
+                onClick()
+            }} className="font-bold cursor-pointer">
                 Sing Up
             </p>
         </div>

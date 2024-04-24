@@ -9,6 +9,7 @@ import {setAuthToken} from "@/helpers/setAuthToken";
 
 type AuthType = {
     user: UserData | undefined;
+    isLoading: boolean;
     login: (email: string, password: string) => Promise<boolean>;
     register: (name: string, email: string, password: string) => Promise<boolean>;
     checkUser: () => void;
@@ -24,6 +25,7 @@ export function useAuth() {
 
 function AuthContextProvider({children}: { children: ReactNode }) {
     const [user, setUser] = useState<UserData | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const searchParams = useSearchParams();
@@ -107,13 +109,17 @@ function AuthContextProvider({children}: { children: ReactNode }) {
         };
 
         try {
+            setIsLoading(true)
             const res = await axiosInstance.post(`${apiUrl}/auth/login`, data);
             if (res.data.token != null) {
                 toast.success(res.data.message);
                 localStorage.setItem("token", res.data.token);
                 await checkUser();
-                return true;
+                setIsLoading(false)
+                return true
             } else toast.error(res.data.message);
+            setIsLoading(false)
+            return false
         } catch (error) {
             console.log(error);
         }
@@ -128,11 +134,15 @@ function AuthContextProvider({children}: { children: ReactNode }) {
         };
 
         try {
+            setIsLoading(true)
             const res = await axiosInstance.post(`${apiUrl}/auth/register`, data);
             if (res.data.success) {
                 toast.success(res.data.message);
-                return true;
+                setIsLoading(false);
+                return res.data.success
             } else toast.error(res.data.message);
+            setIsLoading(false);
+            return false;
         } catch (error) {
             console.log(error);
         }
@@ -143,7 +153,6 @@ function AuthContextProvider({children}: { children: ReactNode }) {
         try {
             localStorage.removeItem("token");
             toast.success("Logout success!")
-            // await axiosInstance.get(`${apiUrl}/auth/logout`);
             await checkUser();
         } catch (error) {
             console.log(error);
@@ -151,7 +160,15 @@ function AuthContextProvider({children}: { children: ReactNode }) {
     };
 
     return <AuthProvider.Provider
-        value={{login, user, checkUser, logout, register, getAllUrlOauth}}>{children}</AuthProvider.Provider>;
+        value={{
+            login,
+            user,
+            checkUser,
+            logout,
+            register,
+            getAllUrlOauth,
+            isLoading
+        }}>{children}</AuthProvider.Provider>;
 }
 
 export default AuthContextProvider;

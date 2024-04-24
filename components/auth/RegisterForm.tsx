@@ -1,9 +1,11 @@
 import {twMerge} from "tailwind-merge";
 import {BsCheckSquareFill} from "react-icons/bs";
-import {AiOutlineGithub} from "react-icons/ai";
-import {FcGoogle} from "react-icons/fc";
-import {FormEvent, useReducer, useState} from "react";
+import {FormEvent, useReducer, useRef, useState} from "react";
 import {z} from "zod";
+import {useAuth} from "@/contexts/AuthProvider";
+import {ClipLoader} from "react-spinners";
+import EmailVerifyModal from "@/components/auth/EmailVerifyModal";
+import useEmailVerifyModal from "@/hooks/useEmailVerifyModal";
 
 const formReducer = (state: Record<string, string>, event: React.ChangeEvent<HTMLInputElement>) => {
     return {
@@ -26,7 +28,7 @@ const User = z
             .max(20, {
                 message: "Must contain at most 20 characters",
             })
-            .refine(value => /^[A-Za-z]+$/.test(value), {
+            .refine(value => /^[A-Za-z ]+$/.test(value), {
                 message: "Must only contain letters",
             }),
         lastName: z
@@ -41,7 +43,7 @@ const User = z
             .max(20, {
                 message: "Must contain at most 20 characters",
             })
-            .refine(value => /^[A-Za-z]+$/.test(value), {
+            .refine(value => /^[A-Za-z ]+$/.test(value), {
                 message: "Must only contain letters",
             }),
         email: z
@@ -90,9 +92,11 @@ function RegisterForm({onClick}: { onClick: () => void }) {
     const [checkTerm, setCheckTerm] = useState(false)
     const [formData, setFormData] = useReducer(formReducer, {});
     const [formErrors, setFormErrors] = useState<Record<string, string>>({})
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const {register, isLoading} = useAuth();
+    const emailVerify = useEmailVerifyModal();
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         const parsedUser = User.safeParse(formData);
         if (!parsedUser.success) {
             const error = parsedUser.error;
@@ -106,6 +110,16 @@ function RegisterForm({onClick}: { onClick: () => void }) {
             return setFormErrors(newErrors);
         }
         setFormErrors({});
+        try {
+            const isSuccess = await register(`${formData.firstName} ${formData.lastName}`, formData.email, formData.password);
+            // if (isSuccess) {
+            //     localStorage.setItem("authFormData", `${formData.email}/${formData.password}`)
+            //     onClick()
+            // }
+            emailVerify.onOpen();
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return <>
@@ -119,18 +133,20 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                            type="text"
                            name="firstName"
                            placeholder="Robert"
-                           className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
+                           disabled={isLoading}
+                           className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                     {formErrors.firstName && <p className="text-red-600 mt-1">{formErrors.firstName}</p>}
                 </div>
                 <div className="mb-4 flex-1">
                     <label className="block mb-2" htmlFor="lastName">
                         Last Name
                     </label>
-                    <input id="lastName"
-                           name="lastName"
-                           onChange={setFormData}
-                           type="text" placeholder="Fox"
-                           className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none w-full border border-neutral-900"/>
+                    <input
+                        name="lastName"
+                        onChange={setFormData}
+                        disabled={isLoading}
+                        type="text" placeholder="Fox"
+                        className="h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none w-full border border-neutral-900 disabled:bg-gray-500/10"/>
                     {formErrors.lastName && <p className="text-red-600 mt-1">{formErrors.lastName}</p>}
                 </div>
             </div>
@@ -141,8 +157,9 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                 <input id="email"
                        onChange={setFormData}
                        name="email"
+                       disabled={isLoading}
                        type="text" placeholder="example@gmail.com"
-                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
+                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.email && <p className="text-red-600 mt-1">{formErrors.email}</p>}
             </div>
             <div className="mb-4">
@@ -152,8 +169,9 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                 <input id="password"
                        name="password"
                        onChange={setFormData}
+                       disabled={isLoading}
                        type="password" placeholder="*****************"
-                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
+                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.password && <p className="text-red-600 mt-1">{formErrors.password}</p>}
             </div>
             <div className="mb-4">
@@ -163,8 +181,9 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                 <input id="confirmPassword"
                        name="confirmPassword"
                        onChange={setFormData}
+                       disabled={isLoading}
                        type="password" placeholder="*****************"
-                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900"/>
+                       className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.confirmPassword &&
                     <p className="text-red-600 mt-1">{formErrors.confirmPassword}</p>}
             </div>
@@ -182,8 +201,10 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                     <BsCheckSquareFill className={"w-[18px] h-[18px]"}/>
                 </div>}
             </div>
-            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4">
-                Sing Up
+            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-80"
+                    disabled={isLoading}>
+                {!isLoading && <p>Sign Up</p>}
+                <ClipLoader color={"white"} loading={isLoading} size={20}/>
             </button>
         </form>
 
@@ -193,6 +214,8 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                 Sign In
             </p>
         </div>
+
+        <EmailVerifyModal email={formData.email}/>
     </>
 }
 
