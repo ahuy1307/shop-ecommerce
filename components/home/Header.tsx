@@ -55,7 +55,9 @@ function Header() {
                                      alt=""/>
                                 <div className={"flex flex-col gap-y-1"}>
                                     <p>Hello 👋</p>
-                                    <p className={"font-bold"}>{user.name}</p>
+                                    <p className={"font-bold"}>
+                                        {user.firstName + " " + user.role != "GITHUB" && user.lastName}
+                                    </p>
                                 </div>
                             </Link>
                             <div className={"mt-6"}>

@@ -21,6 +21,10 @@ const User = z
                 required_error: "Field is required",
             })
             .email(),
+        password: z
+            .string({
+                required_error: "Field is required",
+            })
     });
 
 function LoginForm({onClick}: { onClick: () => void }) {
@@ -55,7 +59,7 @@ function LoginForm({onClick}: { onClick: () => void }) {
         try {
             const isSuccess = await login(formData.email, formData.password);
             if (isSuccess) {
-                localStorage.removeItem("authFormData")
+                localStorage.removeItem("authFormData");
                 router.push("/")
             }
         } catch (e) {
@@ -87,12 +91,13 @@ function LoginForm({onClick}: { onClick: () => void }) {
                        disabled={isLoading}
                        type="password" placeholder="*****************"
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
+                {formErrors.password && <p className="text-red-600 mt-1">{formErrors.password}</p>}
             </div>
             <p className="float-right underline cursor-pointer mb-4">Forgot Password?</p>
-            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-40"
+            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-60"
                     disabled={isLoading}>
                 {!isLoading && <p>Sign In</p>}
-                <ClipLoader color={"white"} loading={isLoading}/>
+                <ClipLoader color={"white"} loading={isLoading} size={20}/>
             </button>
         </form>
         <div className={"xl:w-[550px]"}>

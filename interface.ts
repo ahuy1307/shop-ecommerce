@@ -2,7 +2,8 @@ import {UUID} from "node:crypto";
 
 export interface UserData {
     id: UUID,
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     avatar: string,
     gender: string,

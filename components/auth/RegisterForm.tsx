@@ -111,12 +111,10 @@ function RegisterForm({onClick}: { onClick: () => void }) {
         }
         setFormErrors({});
         try {
-            const isSuccess = await register(`${formData.firstName} ${formData.lastName}`, formData.email, formData.password);
-            // if (isSuccess) {
-            //     localStorage.setItem("authFormData", `${formData.email}/${formData.password}`)
-            //     onClick()
-            // }
-            emailVerify.onOpen();
+            const isSuccess = await register(formData.firstName, formData.lastName, formData.email, formData.password);
+            if (isSuccess) {
+                emailVerify.onOpen();
+            }
         } catch (e) {
             console.log(e)
         }
@@ -201,7 +199,7 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                     <BsCheckSquareFill className={"w-[18px] h-[18px]"}/>
                 </div>}
             </div>
-            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-80"
+            <button type="submit" className="bg-black text-white w-full rounded-[10px] py-5 mb-4 disabled:opacity-60"
                     disabled={isLoading}>
                 {!isLoading && <p>Sign Up</p>}
                 <ClipLoader color={"white"} loading={isLoading} size={20}/>

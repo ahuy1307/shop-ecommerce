@@ -25,7 +25,7 @@ function EmailVerifyModal({email}: { email: string }) {
         </div>
         <div
             className={twMerge(`fixed top-[50%] w-[70vw] min-w-[95%] sm:min-w-[350px] max-w-[600px] md:px-4 lg:px-6 xl:px-8 left-[50%] translate-x-[-50%]
-                translate-y-[-50%] bg-white transition-all origin-center hidden z-[101] px-4 rounded-lg`, emailVerify.isOpen && `block`)}>
+                translate-y-[-50%] bg-white transition-all origin-center z-[101] px-4 rounded-lg scale-[0.001] duration-300`, emailVerify.isOpen && `scale-100`)}>
             <AiFillCloseCircle className={"absolute top-4 right-4 w-7 h-7"} onClick={emailVerify.onClose}/>
             <div className="mx-auto px-4 py-16 flex flex-col items-center justify-center">
                 <div className={"mb-4 bg-[#d1f9de] p-4 rounded-full"}>

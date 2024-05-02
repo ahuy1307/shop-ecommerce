@@ -2,9 +2,12 @@ import {twMerge} from "tailwind-merge";
 import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 import {useEffect} from "react";
 import CustomCursor from "@/components/others/CustomCursor";
+import {useAuth} from "@/contexts/AuthProvider";
+import {DatePicker, DatePickerProps} from "antd";
 
 function UpdateUserInfoModal() {
     const updateUserInfo = useUpdateUserInfo()
+    const {user} = useAuth();
 
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
@@ -14,6 +17,10 @@ function UpdateUserInfoModal() {
             document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
 
     }, [updateUserInfo.isOpen])
+
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, dateString);
+    };
 
     return <>
         <div onClick={updateUserInfo.onClose}
@@ -29,14 +36,14 @@ function UpdateUserInfoModal() {
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="firstName">
                         First Name
                     </label>
-                    <input id="firstName" required type="text" value="Robert"
+                    <input id="firstName" required type="text" value={user?.firstName || ""}
                            className="px-4 py-2 rounded-[10px] border border-neutral-900 outline-none"/>
                 </div>
                 <div className={"flex-1"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="lastName">
                         Last Name
                     </label>
-                    <input id="lastName" required type="text" value="Ford"
+                    <input id="lastName" required type="text" value={user?.lastName || ""}
                            className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none"/>
                 </div>
             </div>
@@ -45,24 +52,39 @@ function UpdateUserInfoModal() {
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                         Email Address
                     </label>
-                    <input id="email" required type="text" value="example@gmail.com"
-                           className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none"/>
+                    <input id="email" required type="text" value={user?.email || ""} disabled
+                           className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none disabled:bg-gray-200"/>
                 </div>
                 <div className={"flex-1"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="gender">
                         Gender
                     </label>
-                    <input id="gender" required type="text" value="Female"
-                           className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none"/>
+                    <div className={"relative"}>
+                        <select
+                            className="appearance-none block border outline-none border-neutral-900 w-full py-3 px-4 bg-white rounded-lg pr-4 shadow-sm">
+                            <option disabled selected className={"hidden"}>Gender</option>
+                            <option value={"female"}>Female</option>
+                            <option value={"male"}>Male</option>
+                            <option value={"other"}>Other</option>
+                        </select>
+                        <div
+                            className="pointer-events-none absolute top-[50%] translate-y-[-50%] right-0 flex items-center pr-2">
+                            <svg className="fill-current h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20">
+                                <path d="M10 15l-7-7 1.5-1.5L10 12.086l5.5-5.5L17 8z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className={"flex mb-4"}>
+            <div className={"flex mb-4 gap-x-4"}>
                 <div className={"w-[50%]"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="birth">
                         Date Of Birth
                     </label>
-                    <input id="birth" required type="text" value="07/13/2003"
-                           className="px-4 py-2 rounded-[10px] border border-neutral-900 outline-none"/>
+                    <DatePicker
+                        className={"px-4 h-[41.6px] w-full leading-3 border rounded-[10px] border-neutral-900 outline-none hover:border-neutral-900"}
+                        onChange={onChange}/>
                 </div>
                 <div className={"flex-1"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="phone">
@@ -75,7 +97,7 @@ function UpdateUserInfoModal() {
             <label className="block mb-1 text-sm text-gray-500" htmlFor="address">
                 Address
             </label>
-            <input id="address" required type="text" value="2464 Royal Ln, Mesa, New Jerry 45463"
+            <input id="address" required type="text" value={user?.address || "None"}
                    className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none"/>
             <div className={"flex gap-x-4 items-center pb-4 pt-6 w-full px-8"}>
                 <button className={"border border-[#acacac] font-bold py-3 flex-1"}

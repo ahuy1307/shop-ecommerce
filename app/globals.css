@@ -14,6 +14,21 @@ body {
     overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: gray;
+}
+
 input:-webkit-autofill {
     -webkit-background-clip: text !important;
 }
@@ -21,10 +36,6 @@ input:-webkit-autofill {
 input:-webkit-autofill:disabled {
     -webkit-box-shadow: 0 0 0 30px rgb(107 114 128 / 0.1) inset;
 }
-
-/*input:disabled {*/
-/*    background: red !important;*/
-/*}*/
 
 .category > .swiper {
     padding-bottom: 50px !important;
@@ -94,4 +105,19 @@ input:-webkit-autofill:disabled {
 
 .ant-switch-checked {
     background-color: #49b34f !important;
+}
+
+.ant-picker-input > input::placeholder {
+    color: black !important;
+    font-size: 16px !important;
+}
+
+.ant-picker-input > input {
+    color: black !important;
+    font-size: 16px !important;
+}
+
+.ant-picker-input > .ant-picker-suffix {
+    color: black !important;
+    font-size: 16px !important;
 }

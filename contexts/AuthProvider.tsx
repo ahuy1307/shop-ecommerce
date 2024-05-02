@@ -11,7 +11,7 @@ type AuthType = {
     user: UserData | undefined;
     isLoading: boolean;
     login: (email: string, password: string) => Promise<boolean>;
-    register: (name: string, email: string, password: string) => Promise<boolean>;
+    register: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
     checkUser: () => void;
     getAllUrlOauth: () => void;
     logout: () => void;
@@ -30,6 +30,8 @@ function AuthContextProvider({children}: { children: ReactNode }) {
 
     const searchParams = useSearchParams();
     const code = searchParams.get("code");
+    const error = searchParams.get("error");
+    const token = searchParams.get("token");
 
 
     const getAllUrlOauth = async () => {
@@ -78,7 +80,8 @@ function AuthContextProvider({children}: { children: ReactNode }) {
             if (res.data) {
                 let userData = {
                     id: res.data.id,
-                    name: res.data.name,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName,
                     email: res.data.email,
                     phone: res.data.phone,
                     avatar: res.data.avatar,
@@ -99,6 +102,11 @@ function AuthContextProvider({children}: { children: ReactNode }) {
     useEffect(() => {
         getAllUrlOauth()
         if (code != null) generateTokenSocial();
+        if (error != null) toast.error(error);
+        if (token != null && token.startsWith("eyJ")) {
+            localStorage.setItem("token", token)
+            toast.success("Verify success!")
+        }
         checkUser();
     }, []);
 
@@ -118,6 +126,7 @@ function AuthContextProvider({children}: { children: ReactNode }) {
                 setIsLoading(false)
                 return true
             } else toast.error(res.data.message);
+            ``
             setIsLoading(false)
             return false
         } catch (error) {
@@ -126,9 +135,10 @@ function AuthContextProvider({children}: { children: ReactNode }) {
         return false;
     };
 
-    const register = async (name: string, email: string, password: string) => {
+    const register = async (firstName: string, lastName: string, email: string, password: string) => {
         const data = {
-            name,
+            firstName,
+            lastName,
             email,
             password,
         };

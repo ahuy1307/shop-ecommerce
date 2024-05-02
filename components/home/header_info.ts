@@ -49,12 +49,6 @@ export const listUserSetting = [
         type: "order"
     },
     {
-        icon: AiOutlineHeart,
-        title: "My Wishlists",
-        link: "/user?type=wish",
-        type: "wish"
-    },
-    {
         icon: BiMap,
         title: "Manage Address",
         link: "/user?type=address",
