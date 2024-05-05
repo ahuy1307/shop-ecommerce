@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ToastProvider from "@/contexts/ToastProvider";
 import AuthContextProvider from "@/contexts/AuthProvider";
 import {Suspense} from "react";
+import PhoneProvider from "@/contexts/PhoneProvider";
 
 
 const roboto = Roboto({
@@ -35,7 +36,9 @@ export default function RootLayout({
         <ToastProvider/>
         <Suspense>
             <AuthContextProvider>
-                {children}
+                <PhoneProvider>
+                    {children}
+                </PhoneProvider>
             </AuthContextProvider>
         </Suspense>
         </body>

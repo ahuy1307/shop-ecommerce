@@ -6,7 +6,8 @@ import {useState} from "react";
 function ProductWishlist() {
     const [checkHover, setCheckHover] = useState(false)
 
-    return <div className={"relative cursor-pointer"} onMouseEnter={() => setCheckHover(true)}
+    return <div className={"relative cursor-pointer hover:-translate-y-2 transition-all duration-500"}
+                onMouseEnter={() => setCheckHover(true)}
                 onMouseLeave={() => setCheckHover(false)}>
         <div className={"relative"}>
             <Link href={"/products/1"}>

@@ -47,7 +47,7 @@ function UserInfomation() {
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                         {user?.role == "GITHUB" ? "Github Address" : "Email Address"}
                     </label>
-                    <Link href={user?.email || "/"}
+                    <Link href={user?.role == "GITHUB" ? user?.email : "#"}
                           className={"border block border-black rounded-lg py-2 px-4 hover:underline"}>{user?.email || "None"}</Link>
                 </div>
                 <div className={"flex-1"}>

@@ -2,10 +2,11 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {useRouter, useSearchParams} from "next/navigation";
-import {UserData} from "@/interface";
+import {DetailPhone, UserData} from "@/interface";
 import axiosInstance from "@/helpers/axiosInstance";
 import {apiUrl, currentUrl} from "@/constant";
 import {setAuthToken} from "@/helpers/setAuthToken";
+import {set} from "zod";
 
 type AuthType = {
     user: UserData | undefined;
@@ -32,7 +33,6 @@ function AuthContextProvider({children}: { children: ReactNode }) {
     const code = searchParams.get("code");
     const error = searchParams.get("error");
     const token = searchParams.get("token");
-
 
     const getAllUrlOauth = async () => {
         if (localStorage.getItem("urlGoogle") != null) return;
@@ -108,6 +108,7 @@ function AuthContextProvider({children}: { children: ReactNode }) {
             toast.success("Verify success!")
         }
         checkUser();
+
     }, []);
 
     const login = async (email: string, password: string) => {

@@ -36,8 +36,10 @@ function ProductItem({onClick}: Props) {
     }
 
     return <>
-        <div className={"relative cursor-pointer"} onMouseEnter={() => setCheckHover(true)}
-             onMouseLeave={() => setCheckHover(false)}>
+        <div
+            className={"relative cursor-pointer flex flex-col gap-y-3 hover:-translate-y-2 transition-all duration-500"}
+            onMouseEnter={() => setCheckHover(true)}
+            onMouseLeave={() => setCheckHover(false)}>
             <div className={"relative"}>
                 <Link href={"/products/1"}>
                     <img
@@ -96,7 +98,7 @@ function ProductItem({onClick}: Props) {
                     </div>
                 </div>
             </div>
-            <Link href={"/products/1"} className={"cursor-pointer text-center mt-4"}>
+            <Link href={"/products/1"} className={"cursor-pointer text-center"}>
                 <h3 className={"text-sm hover:underline"}>
                     Glow in the Dark Football Print Long Sleeve Kids Night Suit
                 </h3>

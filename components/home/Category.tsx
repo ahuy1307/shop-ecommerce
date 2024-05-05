@@ -61,13 +61,16 @@ function Category() {
                 className="mySwiper">
                 {categories.map((item, index) => {
                     return <SwiperSlide
-                        className={twMerge(`relative`)}>
-                        <img src="./images/register_img.png" className={"rounded-md"} alt=""/>
-                        <div
-                            className={"bg-white text-black rounded-lg absolute bottom-4 w-[110px] lg:w-[150px] left-[50%] translate-x-[-50%]"}>
+                        className={twMerge(`relative overflow-hidden rounded-md`)}>
+                        <div className={"hover:scale-105 transition-all duration-500 overflow-hidden"}>
+
+                            <img src="./images/register_img.png" className={"rounded-md"} alt=""/>
+                            <div
+                                className={"bg-white text-black rounded-lg absolute bottom-4 w-[110px] lg:w-[150px] left-[50%] translate-x-[-50%]"}>
                         <span className={"text-sm w-full text-center block py-1"}>
                             Kids Wear
                         </span>
+                            </div>
                         </div>
                     </SwiperSlide>
                 })}

@@ -5,8 +5,8 @@ import {FormEvent, FormEventHandler, useEffect, useReducer, useState} from "reac
 import {useRouter} from "next/navigation";
 import {z} from "zod";
 import {useAuth} from "@/contexts/AuthProvider";
-import toast from "react-hot-toast";
 import {ClipLoader} from "react-spinners";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
 
 const formReducer = (state: Record<string, string>, event: React.ChangeEvent<HTMLInputElement>) => {
     return {
@@ -32,6 +32,9 @@ function LoginForm({onClick}: { onClick: () => void }) {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const router = useRouter()
     const {login, isLoading} = useAuth()
+    const [showPassword, setShowPassword] = useState(false)
+    const IconPassword = showPassword ? FaEye : FaEyeSlash;
+
     const handleLoginSocialMedia = (url: string | null) => {
         if (url == null) return;
 
@@ -81,15 +84,17 @@ function LoginForm({onClick}: { onClick: () => void }) {
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.email && <p className="text-red-600 mt-1">{formErrors.email}</p>}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
                 <label className="block mb-2" htmlFor="password">
                     Password
                 </label>
+                <IconPassword onClick={() => setShowPassword(!showPassword)}
+                              className={"absolute top-[50%] translate-y-[25%] w-5 h-5 right-4"}/>
                 <input id="password"
                        name="password"
                        onChange={setFormData}
                        disabled={isLoading}
-                       type="password" placeholder="*****************"
+                       type={showPassword ? "text" : "password"} placeholder="*****************"
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.password && <p className="text-red-600 mt-1">{formErrors.password}</p>}
             </div>

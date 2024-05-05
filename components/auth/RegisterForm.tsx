@@ -6,6 +6,7 @@ import {useAuth} from "@/contexts/AuthProvider";
 import {ClipLoader} from "react-spinners";
 import EmailVerifyModal from "@/components/auth/EmailVerifyModal";
 import useEmailVerifyModal from "@/hooks/useEmailVerifyModal";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
 
 const formReducer = (state: Record<string, string>, event: React.ChangeEvent<HTMLInputElement>) => {
     return {
@@ -94,6 +95,14 @@ function RegisterForm({onClick}: { onClick: () => void }) {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({})
     const {register, isLoading} = useAuth();
     const emailVerify = useEmailVerifyModal();
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmPassword: false,
+    });
+
+    const IconPassword = !showPassword.password ? FaEyeSlash : FaEye;
+    const IconConfirmPassword = !showPassword.confirmPassword ? FaEyeSlash : FaEye;
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -160,27 +169,39 @@ function RegisterForm({onClick}: { onClick: () => void }) {
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.email && <p className="text-red-600 mt-1">{formErrors.email}</p>}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
                 <label className="block mb-2" htmlFor="password">
                     Password
                 </label>
+                <IconPassword onClick={() => setShowPassword(prevState => {
+                    return {
+                        ...prevState,
+                        password: !prevState.password
+                    }
+                })} className={"absolute top-[50%] translate-y-[25%] w-5 h-5 right-4"}/>
                 <input id="password"
                        name="password"
                        onChange={setFormData}
                        disabled={isLoading}
-                       type="password" placeholder="*****************"
+                       type={showPassword.password ? "text" : "password"} placeholder="*****************"
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.password && <p className="text-red-600 mt-1">{formErrors.password}</p>}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
                 <label className="block mb-2" htmlFor="confirmPassword">
                     Confirm Password
                 </label>
+                <IconConfirmPassword onClick={() => setShowPassword(prevState => {
+                    return {
+                        ...prevState,
+                        confirmPassword: !prevState.confirmPassword
+                    }
+                })} className={"absolute top-[50%] translate-y-[25%] w-5 h-5 right-4"}/>
                 <input id="confirmPassword"
                        name="confirmPassword"
                        onChange={setFormData}
                        disabled={isLoading}
-                       type="password" placeholder="*****************"
+                       type={showPassword.confirmPassword ? "text" : "password"} placeholder="*****************"
                        className="w-full h-14 px-4 pt-4 pb-[17px] rounded-[10px] outline-none border border-neutral-900 disabled:bg-gray-500/10"/>
                 {formErrors.confirmPassword &&
                     <p className="text-red-600 mt-1">{formErrors.confirmPassword}</p>}
