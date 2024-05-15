@@ -62,7 +62,7 @@ function UserInfomation() {
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                         Date Of Birth
                     </label>
-                    <p className={"border border-black rounded-lg py-2 px-4"}>{user?.dateOfBirth ? user.dateOfBirth.toDateString() : "None"}</p>
+                    <p className={"border border-black rounded-lg py-2 px-4"}>{user?.dateOfBirth ? user.dateOfBirth.toString().split(" ")[0] : "None"}</p>
                 </div>
                 <div className={"flex-1"}>
                     <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
@@ -76,6 +76,11 @@ function UserInfomation() {
                     Address
                 </label>
                 <p className={"border border-black rounded-lg py-2 px-4"}>{user?.address || "None"}</p>
+                <Link href={"/user?type=address"}
+                      className={"p-3 gap-x-2 float-right mt-4 rounded-md text-sm right-4 bg-black text-white inline-flex items-center"}>
+                    <EditIcon className={"w-4 h-4"}/>
+                    <p>Edit Address</p>
+                </Link>
             </div>
         </div>
         <UpdateUserInfoModal/>

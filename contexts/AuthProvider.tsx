@@ -2,11 +2,11 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {useRouter, useSearchParams} from "next/navigation";
-import {DetailPhone, UserData} from "@/interface";
+import {DetailPhone, UserData, UserUpdate} from "@/interface";
 import axiosInstance from "@/helpers/axiosInstance";
 import {apiUrl, currentUrl} from "@/constant";
 import {setAuthToken} from "@/helpers/setAuthToken";
-import {set} from "zod";
+import {UUID} from "node:crypto";
 
 type AuthType = {
     user: UserData | undefined;
@@ -14,6 +14,7 @@ type AuthType = {
     login: (email: string, password: string) => Promise<boolean>;
     register: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
     checkUser: () => void;
+    updateInfoUser: (id: UUID, data: UserUpdate) => Promise<boolean>;
     getAllUrlOauth: () => void;
     logout: () => void;
 };
@@ -127,11 +128,11 @@ function AuthContextProvider({children}: { children: ReactNode }) {
                 setIsLoading(false)
                 return true
             } else toast.error(res.data.message);
-            ``
             setIsLoading(false)
-            return false
         } catch (error) {
+            setIsLoading(false)
             console.log(error);
+            toast.error("Login failed!")
         }
         return false;
     };
@@ -153,8 +154,9 @@ function AuthContextProvider({children}: { children: ReactNode }) {
                 return res.data.success
             } else toast.error(res.data.message);
             setIsLoading(false);
-            return false;
         } catch (error) {
+            setIsLoading(false)
+            toast.error("Register failed!")
             console.log(error);
         }
         return false;
@@ -170,6 +172,24 @@ function AuthContextProvider({children}: { children: ReactNode }) {
         }
     };
 
+    const updateInfoUser = async (id: UUID, data: UserUpdate) => {
+        try {
+            setIsLoading(true)
+            const res = await axiosInstance.patch(`${apiUrl}/user/${id}`, data);
+            if (res.data) {
+                toast.success("Update success!");
+                await checkUser();
+                setIsLoading(false)
+                return true;
+            } else toast.error("Update failed!");
+            setIsLoading(false)
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false)
+            toast.error("Update failed!")
+        }
+        return false;
+    }
     return <AuthProvider.Provider
         value={{
             login,
@@ -178,7 +198,8 @@ function AuthContextProvider({children}: { children: ReactNode }) {
             logout,
             register,
             getAllUrlOauth,
-            isLoading
+            isLoading,
+            updateInfoUser
         }}>{children}</AuthProvider.Provider>;
 }
 

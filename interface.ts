@@ -24,6 +24,6 @@ export interface UserUpdate {
     firstName: string,
     lastName: string,
     gender: string,
-    dateOfBirth: Date,
+    dateOfBirth: Date | null,
     phone: string,
 }

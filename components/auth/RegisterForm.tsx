@@ -14,7 +14,6 @@ const formReducer = (state: Record<string, string>, event: React.ChangeEvent<HTM
         [event.target.name]: event.target.value,
     };
 };
-
 const User = z
     .object({
         firstName: z
@@ -88,6 +87,7 @@ const User = z
             });
         }
     });
+
 
 function RegisterForm({onClick}: { onClick: () => void }) {
     const [checkTerm, setCheckTerm] = useState(false)

@@ -22,7 +22,6 @@ function Header() {
     const {user, logout} = useAuth();
     const router = useRouter()
 
-    console.log(user)
     return (
         <header
             className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]

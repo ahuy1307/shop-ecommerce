@@ -36,8 +36,8 @@ function PhoneProvider({children}: { children: React.ReactNode }) {
                     flag: item.flags.png
                 })
             })
-            setPhones(result);
             setPhonesSearch(result);
+            setPhones(result);
         } catch (error) {
             console.log(error);
         }
