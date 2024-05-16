@@ -20,8 +20,8 @@ function UserSideBar() {
                 </div>
             </Link>
             <div className={"flex flex-col gap-y-10 lg:my-6 lg:gap-y-4"}>
-                {listUserSetting.slice(1).map(item => {
-                    return <Link href={item.link}
+                {listUserSetting.slice(1).map((item, index) => {
+                    return <Link key={index} href={item.link}
                                  className={twMerge(`p-2 lg:pl-4 lg:py-3 rounded-md flex items-center gap-x-4 lg:pr-10 xl:pr-20 lg:rounded-none`, type == null && item.type == null && path == item.link && `bg-black text-white`,
                                      item.type !== null && item.link.includes(path) && type == item.type && `bg-black text-white`)}>
                         <item.icon className={"w-6 h-6"}/>

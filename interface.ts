@@ -10,8 +10,20 @@ export interface UserData {
     gender: string,
     phone: string,
     dateOfBirth: Date,
-    address: string,
+    addresses: Address[],
     role: string
+}
+
+export interface Address {
+    id?: number
+    name: string,
+    phone: string
+    province: string,
+    district: string,
+    ward: string,
+    currentAddress: string
+    isDefault?: boolean
+    user_id?: UUID
 }
 
 export interface DetailPhone {
@@ -26,4 +38,21 @@ export interface UserUpdate {
     gender: string,
     dateOfBirth: Date | null,
     phone: string,
+}
+
+export interface Province {
+    province_id: string,
+    province_name: string,
+    province_type: string,
+}
+
+export interface District {
+    district_id: string,
+    district_name: string,
+}
+
+
+export interface Ward {
+    ward_id: string,
+    ward_name: string,
 }

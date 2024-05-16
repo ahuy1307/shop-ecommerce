@@ -4,16 +4,12 @@ import React, {FormEvent, useEffect, useState} from "react";
 import CustomCursor from "@/components/others/CustomCursor";
 import {useAuth} from "@/contexts/AuthProvider";
 import {DatePicker, DatePickerProps} from "antd";
-import {DetailPhone, UserUpdate} from "@/interface";
-import {FaCaretDown} from "react-icons/fa6";
-import {FaCaretUp} from "react-icons/fa";
-import {AiOutlineSearch} from "react-icons/ai";
+import {UserUpdate} from "@/interface";
 import {usePhone} from "@/contexts/PhoneProvider";
-import {useDebounce} from "@/hooks/useDebounce";
 import {convertStringToDate} from "@/helpers/covertStringToDate";
 import {z} from "zod";
 import dayjs from "dayjs";
-import PhoneUser from "@/components/user/PhoneUser";
+import PhoneUser from "@/components/user/supports/PhoneUser";
 
 const User = z
     .object({
@@ -29,7 +25,7 @@ const User = z
             .max(20, {
                 message: "Must contain at most 20 characters",
             })
-            .refine(value => /^[A-Za-z ]+$/.test(value), {
+            .refine(value => /^[\p{L}\s]+$/u.test(value), {
                 message: "Must only contain letters",
             }),
         lastName: z
@@ -44,7 +40,7 @@ const User = z
             .max(20, {
                 message: "Must contain at most 20 characters",
             })
-            .refine(value => /^[A-Za-z ]+$/.test(value), {
+            .refine(value => /^[\p{L}\s]+$/u.test(value), {
                 message: "Must only contain letters",
             }),
         gender: z
@@ -74,10 +70,11 @@ function UpdateUserInfoModal() {
         firstName: user?.firstName || "None",
         lastName: user?.lastName || "None",
         gender: user?.gender || "Gender",
-        dateOfBirth: user?.dateOfBirth || null,
+        dateOfBirth: user?.dateOfBirth != null ? convertStringToDate(user?.dateOfBirth.toString().split(" ")[0] as string) : null,
         phone: user?.phone || "None",
     })
-    const dateValue = formData.dateOfBirth ? formData.dateOfBirth : user?.dateOfBirth
+    const [dateValue, setDateValue] = useState<Date | null>(null)
+
 
     useEffect(() => {
         setShowGender(false)
@@ -85,11 +82,15 @@ function UpdateUserInfoModal() {
             firstName: user?.firstName || "None",
             lastName: user?.lastName || "None",
             gender: user?.gender || "Gender",
-            dateOfBirth: user?.dateOfBirth || null,
+            dateOfBirth: user?.dateOfBirth != null ? convertStringToDate(user?.dateOfBirth.toString().split(" ")[0] as string) : null,
             phone: user?.phone || "None",
         })
         setFormErrors({});
         searchPhone("")
+
+        if (user?.dateOfBirth != null) {
+            setDateValue(user?.dateOfBirth)
+        }
     }, [user]);
 
     useEffect(() => {
@@ -98,11 +99,13 @@ function UpdateUserInfoModal() {
             document.querySelector<HTMLElement>("body")!.style.overflowY = "hidden"
         else
             document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
-        setFormData(prev => {
-            return {
-                ...prev,
-                dateOfBirth: convertStringToDate(prev.dateOfBirth?.toString().split(" ")[0] as string)
-            }
+
+        setFormData({
+            firstName: user?.firstName || "None",
+            lastName: user?.lastName || "None",
+            gender: user?.gender || "Gender",
+            dateOfBirth: user?.dateOfBirth != null ? convertStringToDate(user?.dateOfBirth.toString().split(" ")[0] as string) : null,
+            phone: user?.phone || "None",
         })
     }, [updateUserInfo.isOpen])
 
@@ -113,6 +116,7 @@ function UpdateUserInfoModal() {
                 dateOfBirth: convertStringToDate(dateString as string)
             }
         })
+
     };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -123,6 +127,9 @@ function UpdateUserInfoModal() {
             const error = parsedUser.error;
             let newErrors = {};
             for (const issue of error.issues) {
+                if (issue.path[0] == "lastName" || issue.path[0] == "firstName")
+                    if (user?.role != "USER")
+                        continue;
                 newErrors = {
                     ...newErrors,
                     [issue.path[0]]: issue.message,
@@ -138,7 +145,6 @@ function UpdateUserInfoModal() {
         setFormErrors({});
         try {
             if (user == null) return;
-
             const isSuccess = await updateInfoUser(user?.id, formData)
             if (isSuccess)
                 updateUserInfo.onClose()
@@ -164,6 +170,7 @@ function UpdateUserInfoModal() {
             }
         })
     }
+
 
     const handleChangePhone = (value: string) => {
         setFormData(prev => {
@@ -198,18 +205,18 @@ function UpdateUserInfoModal() {
                         <label className="block mb-1 text-sm text-gray-500" htmlFor="firstName">
                             First Name
                         </label>
-                        <input onChange={handleChangeInput} id="firstName" type="text"
+                        <input disabled={user?.role != "USER"} onChange={handleChangeInput} id="firstName" type="text"
                                value={formData.firstName}
-                               className="px-4 w-full py-2 rounded-[10px] border border-neutral-900 outline-none"/>
+                               className="px-4 w-full py-2 rounded-[10px] border border-neutral-900 outline-none disabled:bg-gray-200"/>
                         <p className="text-red-600 mt-1">{formErrors.firstName}</p>
                     </div>
                     <div className={"flex-1"}>
                         <label className="block mb-1 text-sm text-gray-500" htmlFor="lastName">
                             Last Name
                         </label>
-                        <input onChange={handleChangeInput} id="lastName" type="text"
+                        <input disabled={user?.role != "USER"} onChange={handleChangeInput} id="lastName" type="text"
                                value={formData.lastName}
-                               className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none"/>
+                               className="px-4 py-2 w-full rounded-[10px] border border-neutral-900 outline-none disabled:bg-gray-200"/>
                         <p className="text-red-600 mt-1">{formErrors.lastName}</p>
                     </div>
                 </div>
@@ -262,6 +269,11 @@ function UpdateUserInfoModal() {
                         </label>
                         {dateValue != undefined && <DatePicker
                             defaultValue={dayjs(dateValue.toString().split(" ")[0], 'YYYY-MM-DD')}
+                            inputReadOnly
+                            className={"px-4 h-[41.6px] select-none w-full leading-3 border rounded-[10px] border-neutral-900 outline-none hover:border-neutral-900"}
+                            onChange={onChangeDate}/>
+                        }
+                        {user?.dateOfBirth == null && <DatePicker
                             inputReadOnly
                             className={"px-4 h-[41.6px] select-none w-full leading-3 border rounded-[10px] border-neutral-900 outline-none hover:border-neutral-900"}
                             onChange={onChangeDate}/>}

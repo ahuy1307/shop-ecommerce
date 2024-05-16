@@ -10,6 +10,7 @@ function UserInfomation() {
     const updateUserInfo = useUpdateUserInfo()
     const {user} = useAuth();
 
+    console.log(user)
     return <div>
         <div className={"flex items-center justify-between mt-6"}>
             <div className={"relative w-[80px] h-[80px]"}>
@@ -75,7 +76,10 @@ function UserInfomation() {
                 <label className="block mb-1 text-sm text-gray-500" htmlFor="email">
                     Address
                 </label>
-                <p className={"border border-black rounded-lg py-2 px-4"}>{user?.address || "None"}</p>
+                <p className={"border border-black rounded-lg py-2 px-4"}>
+                    {!user?.addresses && "None" || user?.addresses.length == 0 ? "None" :
+                        user?.addresses[0].currentAddress + ", " + user?.addresses[0].district + ", " + user?.addresses[0].ward + ", " + user?.addresses[0].province}
+                </p>
                 <Link href={"/user?type=address"}
                       className={"p-3 gap-x-2 float-right mt-4 rounded-md text-sm right-4 bg-black text-white inline-flex items-center"}>
                     <EditIcon className={"w-4 h-4"}/>

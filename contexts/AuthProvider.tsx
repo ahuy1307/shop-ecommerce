@@ -87,7 +87,7 @@ function AuthContextProvider({children}: { children: ReactNode }) {
                     phone: res.data.phone,
                     avatar: res.data.avatar,
                     gender: res.data.gender,
-                    address: res.data.address,
+                    addresses: res.data.addresses,
                     dateOfBirth: res.data.dateOfBirth,
                     role: res.data.role,
                 };

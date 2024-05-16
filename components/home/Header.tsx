@@ -62,7 +62,7 @@ function Header() {
                             </Link>
                             <div className={"mt-6"}>
                                 {listUserSetting.map((item, index) => {
-                                    return <div onClick={() => {
+                                    return <div key={index} onClick={() => {
                                         if (index == listUserSetting.length - 1) {
                                             logout()
                                             setShowMenu("")
@@ -93,9 +93,9 @@ function Header() {
                         <div className={"flex-col px-4 items-center gap-x-4 border-t border-[#e6e6e6]"}>
                             <p className={"font-bold my-4 text-xl"}>TRENDING NOW</p>
                             <div className={"flex items-center gap-x-6"}>
-                                {listSearchTrending.map((item) => {
+                                {listSearchTrending.map((item, index) => {
                                     return (
-                                        <Link href={item.url}
+                                        <Link key={index} href={item.url}
                                               className={"inline-flex items-center bg-gray-500/10 " + "gap-x-2 rounded-md px-2 cursor-pointer"}>
                                             <item.icon className={"w-5 h-5 text-gray-500"}/>
                                             <p className={"text-gray-500 px-1"}>{item.name}</p>

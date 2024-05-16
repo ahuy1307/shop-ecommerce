@@ -11,6 +11,8 @@ import ToastProvider from "@/contexts/ToastProvider";
 import AuthContextProvider from "@/contexts/AuthProvider";
 import {Suspense} from "react";
 import PhoneProvider from "@/contexts/PhoneProvider";
+import LocationProvider from "@/contexts/LocationProvider";
+import AddressProvider from "@/contexts/AddressProvider";
 
 
 const roboto = Roboto({
@@ -37,7 +39,11 @@ export default function RootLayout({
         <Suspense>
             <AuthContextProvider>
                 <PhoneProvider>
-                    {children}
+                    <LocationProvider>
+                        <AddressProvider>
+                            {children}
+                        </AddressProvider>
+                    </LocationProvider>
                 </PhoneProvider>
             </AuthContextProvider>
         </Suspense>

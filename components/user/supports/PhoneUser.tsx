@@ -38,11 +38,14 @@ function PhoneUser({handleChange, handleSelect}: Props) {
     useEffect(() => {
         setShowPhones(false)
         searchPhone("")
-        setData(user?.phone.split(" ")[1] || "")
-        const phone = phonesSearch?.find(phone => phone.root == user?.phone.split(" ")[0])
-        setPhoneSelected(phone || (phonesSearch ? phonesSearch[0] : null))
-
-    }, [user]);
+        setData(user?.phone && user?.phone.split(" ")[1] || "")
+        if (user?.phone != null && phoneSearch != undefined) {
+            const phone = phonesSearch?.find(phone => phone.root == user?.phone.split(" ")[0])
+            setPhoneSelected(phone || (phonesSearch ? phonesSearch[0] : null))
+        } else
+            setPhoneSelected(phonesSearch ? phonesSearch[0] : null)
+        
+    }, [user, phonesSearch]);
 
     const handleOpenPhone = () => {
         setShowPhones(prev => {

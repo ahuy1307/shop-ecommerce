@@ -1,10 +1,10 @@
 import {FreeShippingIcon, QualityIcon, RankIcon, SupportCallIcon} from "@/icon";
 import {HiOutlineUser} from "react-icons/hi";
 import {BsBoxSeam} from "react-icons/bs";
-import {AiOutlineHeart, AiOutlineSetting, AiOutlineShoppingCart} from "react-icons/ai";
-import {BiMap} from "react-icons/bi";
+import {AiOutlineHeart, AiOutlineSetting} from "react-icons/ai";
 import {GoHome} from "react-icons/go";
 import {IoExitOutline} from "react-icons/io5";
+import {GrLocation} from "react-icons/gr";
 
 export const featureInfo = [
     {
@@ -55,7 +55,7 @@ export const listUserSetting = [
         type: "wish"
     },
     {
-        icon: BiMap,
+        icon: GrLocation,
         title: "Manage Address",
         link: "/user?type=address",
         type: "address"
