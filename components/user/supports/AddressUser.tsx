@@ -4,6 +4,7 @@ import {IoIosArrowDown} from "react-icons/io";
 import {twMerge} from "tailwind-merge";
 import {District, Province, Ward} from "@/interface";
 import useCreateUserAddress from "@/hooks/useCreateUserAddress";
+import toast from "react-hot-toast";
 
 type ShowState = {
     province: boolean;
@@ -17,19 +18,31 @@ type FormData = {
     ward: Ward | null;
 }
 
-type ChangeData = {
-    province: string;
-    district: string;
-    ward: string;
+type Props = {
+    onChange: (key: string, value: string) => void
+    formErrors: any
+    data?: {
+        province: string,
+        district: string,
+        ward: string
+    }
 }
 
-function AddressUser({onChange, formErrors}: { onChange: (key: string, value: string) => void, formErrors: any }) {
+function AddressUser({onChange, formErrors, data}: Props) {
+    const [provinces, setProvinces] = useState<Province[]>([])
+    const [districts, setDistricts] = useState<District[]>([])
+    const [wards, setWards] = useState<Ward[]>([])
     const {isOpen} = useCreateUserAddress()
-    const {provinces, getDistrictsByProvince, getWardsByDistrict, wards, districts} = useLocation()
+    const {getDistrictsByProvince, getWardsByDistrict} = useLocation()
     const [show, setShow] = useState({
         province: false,
         district: false,
         ward: false
+    })
+    const [formData, setFormData] = useState<FormData>({
+        province: null,
+        district: null,
+        ward: null
     })
 
     const handleShow = (key: keyof ShowState) => {
@@ -43,7 +56,7 @@ function AddressUser({onChange, formErrors}: { onChange: (key: string, value: st
             [key]: !prevShow[key]
         }));
     }
-    
+
     useEffect(() => {
         setFormData(
             {
@@ -53,12 +66,6 @@ function AddressUser({onChange, formErrors}: { onChange: (key: string, value: st
             }
         )
     }, [isOpen]);
-
-    const [formData, setFormData] = useState<FormData>({
-        province: null,
-        district: null,
-        ward: null
-    })
 
     const handleSelectProvince = (province: Province) => {
         setFormData(prev => {

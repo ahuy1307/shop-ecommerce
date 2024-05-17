@@ -6,15 +6,24 @@ import {Address} from "@/interface";
 import {useAddress} from "@/contexts/AddressProvider";
 import {useState} from "react";
 import DeleteAddressModal from "@/components/user/modal/DeleteAddressModal";
+import {useAuth} from "@/contexts/AuthProvider";
+import toast from "react-hot-toast";
+import UpdateAddressModal from "@/components/user/modal/UpdateAddressModal";
 
 function AddressInfo({address}: { address: Address }) {
     const {deleteAddress} = useAddress()
-    const [showModal, setShowModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [showUpdateModal, setShowUpdateModal] = useState(false)
+    const {user, checkUser} = useAuth()
 
     const handleDelete = () => {
-        if (address.id === undefined) return;
-        deleteAddress(address.id)
-        setShowModal(false)
+        if (address.id === undefined || user == undefined) {
+            toast.error("Failed to delete address")
+            return
+        }
+        deleteAddress(user.id, address.id)
+        checkUser()
+        setShowDeleteModal(false)
     }
 
     return <div className={"flex justify-between items-center border-b border-gray-500/30 pb-4"}>
@@ -32,25 +41,28 @@ function AddressInfo({address}: { address: Address }) {
         </div>
         <div className={"flex flex-col gap-y-2"}>
             <div className={"flex items-center gap-x-2"}>
-                <div
-                    className={"cursor-pointer hover:opacity-80 flex items-center justify-center gap-x-2 bg-gray-300/20 rounded-lg px-[10px] py-[6px]"}>
+                <div onClick={() => setShowUpdateModal(!showUpdateModal)}
+                     className={"cursor-pointer hover:opacity-80 flex items-center justify-center gap-x-2 bg-gray-300/20 rounded-lg px-[10px] py-[6px]"}>
                     <EditIcon className={"w-4 h-4"} color={"black"}/>
                     <span>Edit</span>
                 </div>
                 {!address.isDefault && <div
-                    onClick={() => setShowModal(!showModal)}
+                    onClick={() => setShowDeleteModal(!showDeleteModal)}
                     className={"cursor-pointer hover:opacity-80 flex items-center justify-center gap-x-2 bg-red-500/10 rounded-lg px-[10px] py-[6px]"}>
                     <LuTrash2 className={"text-red-600"}/>
                     <span className={"text-red-600"}>Delete</span>
                 </div>}
-                <DeleteAddressModal isOpen={showModal} onClose={() => setShowModal(false)} onDelete={handleDelete}/>
+                <DeleteAddressModal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}
+                                    onDelete={handleDelete}/>
             </div>
             {!address.isDefault && <div
                 className={"cursor-pointer flex items-center justify-center mt-1"}>
                 <span className={"text-red-600 hover:text-black"}>Set as default</span>
             </div>}
         </div>
-        <AddAdressInfoModal/>
+        <UpdateAddressModal isOpen={showUpdateModal} onClose={() => setShowUpdateModal(false)}
+                            onUpdate={() => {
+                            }} address={address}/>
     </div>
 }
 

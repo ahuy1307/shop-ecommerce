@@ -1,15 +1,13 @@
 "use client"
 
-import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect} from "react";
 import {District, Province, Ward} from "@/interface";
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 
 type LocationProps = {
-    provinces: Province[]
-    districts: District[]
-    wards: Ward[]
-    getDistrictsByProvince: (provinceId: string) => void
-    getWardsByDistrict: (districtId: string) => void
+    getAllProvinces: () => Promise<Province[] | undefined>
+    getDistrictsByProvince: (provinceId: string) => Promise<District[] | undefined>
+    getWardsByDistrict: (districtId: string) => Promise<Ward[] | undefined>
 }
 
 const LocationContext = createContext({} as LocationProps)
@@ -19,9 +17,6 @@ export function useLocation() {
 }
 
 function LocationProvider({children}: { children: ReactNode }) {
-    const [provinces, setProvinces] = useState<Province[]>([])
-    const [districts, setDistricts] = useState<District[]>([])
-    const [wards, setWards] = useState<Ward[]>([])
 
     const getAllProvinces = async () => {
         try {
@@ -37,16 +32,11 @@ function LocationProvider({children}: { children: ReactNode }) {
                     province_type: province.province_type
                 })
             })
-            const array = result.sort((a, b) => a.province_name.localeCompare(b.province_name));
-            setProvinces(array)
+            return result.sort((a, b) => a.province_name.localeCompare(b.province_name))
         } catch (error) {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-        getAllProvinces()
-    }, []);
 
     const getDistrictsByProvince = async (provinceId: string) => {
         try {
@@ -59,7 +49,7 @@ function LocationProvider({children}: { children: ReactNode }) {
                 })
             })
 
-            setDistricts(result)
+            return result
         } catch (error) {
             console.log(error)
         }
@@ -76,16 +66,14 @@ function LocationProvider({children}: { children: ReactNode }) {
                 })
             })
 
-            setWards(result)
+            return result
         } catch (error) {
             console.log(error)
         }
     }
 
     return <LocationContext.Provider value={{
-        provinces,
-        districts,
-        wards,
+        getAllProvinces,
         getDistrictsByProvince,
         getWardsByDistrict
     }}>

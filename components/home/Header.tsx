@@ -41,7 +41,7 @@ function Header() {
                 {showMenu == "bar" ? (
                     !user ?
                         <>
-                            <Link href="/auth"
+                            <Link href="/sign-in"
                                   className="flex items-center text-base gap-x-3 border-b border-[#e6e6e6] py-3 pl-4"
                                   onClick={() => setShowMenu("")}>
                                 <FaRegUserCircle className="w-5 h-5"/>

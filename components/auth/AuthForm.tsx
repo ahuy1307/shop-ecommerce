@@ -3,6 +3,7 @@ import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import {useEffect, useState} from "react";
+import {SignUp} from "@clerk/nextjs";
 
 
 function AuthForm() {
@@ -31,6 +32,7 @@ function AuthForm() {
                         scrollToTop()
                         setIsLogin(true)
                     }}/>}
+                <SignUp path={"/auth"}/>
             </div>
         </div>
     );

@@ -13,6 +13,7 @@ import {Suspense} from "react";
 import PhoneProvider from "@/contexts/PhoneProvider";
 import LocationProvider from "@/contexts/LocationProvider";
 import AddressProvider from "@/contexts/AddressProvider";
+import {ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 
 
 const roboto = Roboto({
@@ -33,21 +34,23 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-        <body className={roboto.className}>
-        <ToastProvider/>
-        <Suspense>
-            <AuthContextProvider>
-                <PhoneProvider>
-                    <LocationProvider>
-                        <AddressProvider>
-                            {children}
-                        </AddressProvider>
-                    </LocationProvider>
-                </PhoneProvider>
-            </AuthContextProvider>
-        </Suspense>
-        </body>
-        </html>
+        <ClerkProvider>
+            <html lang="en">
+            <body className={roboto.className}>
+            <ToastProvider/>
+            <Suspense>
+                <AuthContextProvider>
+                    <PhoneProvider>
+                        <LocationProvider>
+                            <AddressProvider>
+                                {children}
+                            </AddressProvider>
+                        </LocationProvider>
+                    </PhoneProvider>
+                </AuthContextProvider>
+            </Suspense>
+            </body>
+            </html>
+        </ClerkProvider>
     );
 }

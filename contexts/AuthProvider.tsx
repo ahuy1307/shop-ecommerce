@@ -101,14 +101,14 @@ function AuthContextProvider({children}: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        getAllUrlOauth()
-        if (code != null) generateTokenSocial();
-        if (error != null) toast.error(error);
-        if (token != null && token.startsWith("eyJ")) {
-            localStorage.setItem("token", token)
-            toast.success("Verify success!")
-        }
-        checkUser();
+        // getAllUrlOauth()
+        // if (code != null) generateTokenSocial();
+        // if (error != null) toast.error(error);
+        // if (token != null && token.startsWith("eyJ")) {
+        //     localStorage.setItem("token", token)
+        //     toast.success("Verify success!")
+        // }
+        // checkUser();
 
     }, []);
 
