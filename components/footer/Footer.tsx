@@ -34,19 +34,19 @@ function Footer() {
 
 
     return <footer className={""}>
-        <div className={"bg-[#fde87f] px-5 pt-3 mt-20 xl:px-[120px] md:px-[36px] sm:px-[20px]"}>
+        <div className={"bg-[#fde87f] px-5 pt-3 mt-4 xl:px-[120px] md:px-[36px] sm:px-[20px]"}>
             <div className={"md:flex md:gap-x-10 lg:gap-x-[100px] xl:gap-x-[150px]"}>
                 {listFooterInfo.map((item, index) => {
-                    return <div className={"mt-3 mb-4 cursor-pointer md:cursor-default"}
+                    return <div key={index} className={"mt-3 mb-4 cursor-pointer md:cursor-default"}
                                 onClick={() => handleExpandFooterInfo(index)}>
                         <div className={"flex justify-between border-b border-black pb-3 md:border-0"}>
                             <p className={"font-bold flex-1"}>{item.title}</p>
                             {item.show ? <AiOutlineMinus className={"md:hidden"}/> : <AiOutlinePlus/>}
                         </div>
                         <ul className={twMerge(`show-footer-info hidden`, item.show && `block`)}>
-                            {item.show && item.info.map(value => {
-                                return <li
-                                    className={twMerge(`my-2 text-[13px] `,)}>{value}</li>
+                            {item.show && item.info.map((value, index) => {
+                                return <li key={index}
+                                           className={twMerge(`my-2 text-[13px] `,)}>{value}</li>
                             })}
                         </ul>
                     </div>

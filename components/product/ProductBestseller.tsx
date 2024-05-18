@@ -31,7 +31,7 @@ function ProductBestseller() {
         <div className={"product-seller sm:border-b sm:border-gray-500/40 sm:py-2 lg:border-0"}>
             <SliderProduct>
                 {Array(4).fill(0).map((item, index) => {
-                    return <SwiperSlide>
+                    return <SwiperSlide key={index}>
                         <ProductItem onClick={(id: string) => setProducts(id)}/>
                     </SwiperSlide>
                 })}
@@ -40,7 +40,7 @@ function ProductBestseller() {
         <div className={"product-seller"}>
             <SliderProduct>
                 {Array(4).fill(0).map((item, index) => {
-                    return <SwiperSlide>
+                    return <SwiperSlide key={index}>
                         <ProductItem onClick={(id: string) => setProducts(id)}/>
                     </SwiperSlide>
                 })}

@@ -12,7 +12,9 @@ function Page() {
         <Suspense>
             <UserContent/>
         </Suspense>
-        <Footer/>
+        <div className={"mt-12"}>
+            <Footer/>
+        </div>
     </>
 }
 

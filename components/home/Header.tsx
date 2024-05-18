@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {Logo} from "@/constants/logo";
 import {FaBars} from "react-icons/fa";
 import {BiSearch} from "react-icons/bi";
@@ -12,15 +12,16 @@ import {twMerge} from "tailwind-merge";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {listSearchTrending} from "@/constant";
 import {listUserSetting} from "@/components/home/header_info";
-import DropdownUserInfo from "@/components/others/DropdownUserInfo";
-import {useAuth} from "@/contexts/AuthProvider";
+import {useClerk, UserButton, useUser} from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 function Header() {
     const [showMenu, setShowMenu] = useState("");
     const path = usePathname()
     const type = useSearchParams().get("type")
-    const {user, logout} = useAuth();
     const router = useRouter()
+    const {signOut} = useClerk()
+    const {user} = useUser()
 
     return (
         <header
@@ -50,13 +51,13 @@ function Header() {
                         </> :
                         <>
                             <Link href={"/user"} className={"flex mt-6 gap-x-4 pl-4 items-center"}>
-                                <img src={user.avatar != null ? user.avatar : `./images/no_avatar_user.jpg`}
+                                <img src={user.imageUrl ? user.imageUrl : `./images/no_avatar_user.jpg`}
                                      className={"w-[60px] h-[60px] rounded-full object-cover"}
                                      alt=""/>
                                 <div className={"flex flex-col gap-y-1"}>
                                     <p>Hello 👋</p>
                                     <p className={"font-bold"}>
-                                        {user.firstName + " " + user.role != "GITHUB" && user.lastName}
+                                        {user.fullName}
                                     </p>
                                 </div>
                             </Link>
@@ -64,9 +65,9 @@ function Header() {
                                 {listUserSetting.map((item, index) => {
                                     return <div key={index} onClick={() => {
                                         if (index == listUserSetting.length - 1) {
-                                            logout()
+                                            signOut({redirectUrl: '/sign-in'})
+                                            toast.success("Sign out successfully")
                                             setShowMenu("")
-                                            router.push(item.link)
                                             return
                                         }
                                         setShowMenu("")
@@ -74,7 +75,7 @@ function Header() {
                                     }}
                                                 className={twMerge(`flex items-center gap-x-4 py-3 pl-4 cursor-pointer`, type == null && item.type == null && path == item.link && `bg-gray-500/10`,
                                                     item.type !== null && item.link.includes(path) &&
-                                                    type == item.type && `bg-gray-500/10`, index == 3 && `hidden`)}>
+                                                    type == item.type && `bg-gray-500/10`, index == 3 && `hidden`, item.type != null && path.includes(item.link) && `bg-gray-500/10`)}>
                                         <item.icon className="w-5 h-5"/>
                                         <p>{item.title}</p>
                                     </div>
@@ -148,15 +149,11 @@ function Header() {
                     <p>Cart</p>
                 </Link>
                 {!user ?
-                    <Link href="/auth" className="bg-black text-white rounded-md px-6 py-2">
+                    <Link href="/sign-in" className="bg-black text-white rounded-md px-6 py-2">
                         Login
                     </Link> :
                     <Link href="/user">
-                        <DropdownUserInfo>
-                            <img src="./images/login_img.png"
-                                 className={"rounded-full w-[50px] h-[50px] object-cover"}
-                                 alt=""/>
-                        </DropdownUserInfo>
+                        <UserButton afterSignOutUrl={"/sign-in"} userProfileUrl={"/user-profile"}/>
                     </Link>
                 }
             </div>

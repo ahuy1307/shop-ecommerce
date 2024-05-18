@@ -50,10 +50,10 @@ function SliderImageProduct({className, detail = false}: Props) {
     return (
         <div className={twMerge(`slider-container slider-image-product px-[40px]`, className)}>
             <Slider {...settings}>
-                {Array(5).fill(0).map(item => {
-                    return <img
-                        src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
-                        alt=""/>
+                {Array(5).fill(0).map((item, index) => {
+                    return <img key={index}
+                                src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
+                                alt=""/>
                 })}
             </Slider>
         </div>

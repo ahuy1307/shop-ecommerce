@@ -1,5 +1,4 @@
 "use client"
-import UserInfomation from "@/components/user/UserInfomation";
 import {useSearchParams} from "next/navigation";
 import UserAddress from "@/components/user/UserAddress";
 import UserSetting from "@/components/user/UserSetting";
@@ -16,7 +15,6 @@ function UserContent() {
         <div className={"flex mt-4"}>
             <UserSideBar/>
             <div className={"flex-1"}>
-                {type == null && <UserInfomation/>}
                 {type == "address" && <UserAddress/>}
                 {type == "setting" && <UserSetting/>}
                 {type == "wish" && <UserWishlist/>}

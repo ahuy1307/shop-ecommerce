@@ -62,8 +62,8 @@ function ProductItem({onClick}: Props) {
                         <p className={"font-bold mt-4"}>Size: <span className={"font-thin"}>XL</span></p>
                         <div className={"grid grid-cols-3 gap-2 mt-2"}>
                             {Array(3).fill(0).map((item, index) => {
-                                return <div
-                                    className={twMerge(`border rounded-full px-4 py-1 border-[#cbcbcb] cursor-pointer bg-white flex justify-center`, index == 1 && `border-black`)}>
+                                return <div key={index}
+                                            className={twMerge(`border rounded-full px-4 py-1 border-[#cbcbcb] cursor-pointer bg-white flex justify-center`, index == 1 && `border-black`)}>
                                     XL
                                 </div>
                             })}
@@ -71,8 +71,8 @@ function ProductItem({onClick}: Props) {
                         <p className={"font-bold mt-4"}>Color: <span className={"font-thin"}>Black</span></p>
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
                             {Array(3).fill("#232323").map((item, index) => {
-                                return <div
-                                    className={twMerge(`w-[30px] rounded-full h-[30px] bg-[${item}] ring-1 ring-offset-2 ring-black`)}>
+                                return <div key={index}
+                                            className={twMerge(`w-[30px] rounded-full h-[30px] bg-[${item}] ring-1 ring-offset-2 ring-black`)}>
                                 </div>
                             })}
                         </div>
@@ -80,7 +80,8 @@ function ProductItem({onClick}: Props) {
                         <div
                             className={"w-[120px] mt-1 rounded-lg border border-black flex items-center px-2 py-2 bg-white"}>
                             <AiOutlineMinus className={"cursor-pointer w-6 h-6"}/>
-                            <input type={"text"} value={2}
+                            <input type={"text"} value={2} onChange={() => {
+                            }}
                                    className={"w-full bg-transparent outline-0 text-black text-center"}/>
                             <AiOutlinePlus className={"cursor-pointer w-6 h-6"}/>
                         </div>

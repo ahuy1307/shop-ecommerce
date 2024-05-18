@@ -122,4 +122,33 @@ input:-webkit-autofill:disabled {
     font-size: 16px !important;
 }
 
+.cl-cardBox {
+    height: fit-content;
+}
 
+.cl-internal-1j7ahlv {
+    width: 35px;
+    height: 35px;
+}
+
+@media (max-width: 1240px) {
+    .cl-internal-1cftg7i {
+        display: flex;
+    }
+
+    .cl-internal-1rngkff {
+        display: none;
+    }
+
+    .cl-cardBox {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .cl-cardBox {
+        width: 500px;
+    }
+}

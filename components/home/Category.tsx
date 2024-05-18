@@ -60,8 +60,8 @@ function Category() {
                 spaceBetween={20}
                 className="mySwiper">
                 {categories.map((item, index) => {
-                    return <SwiperSlide
-                        className={twMerge(`relative overflow-hidden rounded-md`)}>
+                    return <SwiperSlide key={index}
+                                        className={twMerge(`relative overflow-hidden rounded-md`)}>
                         <div className={"hover:scale-105 transition-all duration-500 overflow-hidden"}>
 
                             <img src="./images/register_img.png" className={"rounded-md"} alt=""/>

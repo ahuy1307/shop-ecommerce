@@ -39,8 +39,8 @@ export const listUserSetting = [
     {
         icon: HiOutlineUser,
         title: "Personal Information",
-        link: "/user",
-        type: null
+        link: "/user-profile",
+        type: "profile"
     },
     {
         icon: BsBoxSeam,
@@ -73,7 +73,7 @@ export const listUserSetting = [
     {
         icon: IoExitOutline,
         title: "Logout",
-        link: "/auth",
+        link: "/sign-in",
         type: "logout",
     }
 ]
