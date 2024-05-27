@@ -34,7 +34,7 @@ function DealCountdown() {
 
     if (!isClient) return null
 
-    return <div>
+    return <div className={"pb-4"}>
         <h3 className={"text-center italic mt-4 xl:text-xl"}>Hurry, Before It's Too Late</h3>
         <div className={"flex gap-x-5 justify-center mt-2"}>
             <div className={"flex flex-col items-center"}>

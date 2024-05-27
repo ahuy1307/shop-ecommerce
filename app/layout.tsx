@@ -10,7 +10,6 @@ import "slick-carousel/slick/slick-theme.css";
 import ToastProvider from "@/contexts/ToastProvider";
 import AuthContextProvider from "@/contexts/AuthProvider";
 import {Suspense} from "react";
-import PhoneProvider from "@/contexts/PhoneProvider";
 import LocationProvider from "@/contexts/LocationProvider";
 import AddressProvider from "@/contexts/AddressProvider";
 import {ClerkProvider} from "@clerk/nextjs";
@@ -44,13 +43,11 @@ export default function RootLayout({
             <ToastProvider/>
             <Suspense>
                 <AuthContextProvider>
-                    <PhoneProvider>
-                        <LocationProvider>
-                            <AddressProvider>
-                                {children}
-                            </AddressProvider>
-                        </LocationProvider>
-                    </PhoneProvider>
+                    <LocationProvider>
+                        <AddressProvider>
+                            {children}
+                        </AddressProvider>
+                    </LocationProvider>
                 </AuthContextProvider>
             </Suspense>
             </body>

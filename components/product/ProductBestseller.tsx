@@ -20,8 +20,9 @@ function ProductBestseller() {
 
     return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 z-[99] pt-5"}>
         <div className={"flex items-center justify-center gap-x-2 mt-4 relative"}>
-            <h2 className={"text-xl font-bold text-center md:text-2xl absolute bg-white px-4 z-20"}>Our Bestseller</h2>
-            <span className={"absolute w-full h-[1px] bg-[#232323]"}></span>
+            <h2 className={"text-xl font-bold text-center md:text-2xl absolute bg-white px-8 md:px-28 z-20"}>New
+                Arrivals</h2>
+            <span className={"absolute w-full h-[1px] md:h-[2px] bg-[#232323]"}></span>
         </div>
         <div className={"flex justify-center my-6 mb-10 mt-10"}>
             <Link className={"inline-block leading-4 border-b border-black"} href={"/products"}>

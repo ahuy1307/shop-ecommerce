@@ -17,11 +17,11 @@ function Category() {
     const [categories, setCategories] = useState([1, 2, 3, 4])
     return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4"}>
         <div className={"relative my-10 flex justify-center items-center mb-6 mt-12"}>
-            <h2 className={"text-xl font-bold md:text-2xl text-center absolute bg-white px-4 z-20"}>Shop by
+            <h2 className={"text-xl font-bold md:text-2xl text-center absolute bg-white px-4 md:px-28 z-20"}>Shop By
                 Categories</h2>
-            <span className={"absolute w-full h-[1px] bg-[#232323]"}></span>
+            <span className={"absolute w-full h-[1px] md:h-[2px] bg-[#232323]"}></span>
         </div>
-        <div className={"pt-6 md:pt-1 category"}>
+        <div className={"pt-6 md:pt-4 lg:pt-8 category"}>
             <Swiper
                 pagination={pagination}
                 modules={[Grid, Pagination]}
@@ -61,7 +61,7 @@ function Category() {
                 className="mySwiper">
                 {categories.map((item, index) => {
                     return <SwiperSlide key={index}
-                                        className={twMerge(`relative overflow-hidden rounded-md`)}>
+                                        className={twMerge(`relative overflow-hidden rounded-md cursor-pointer`)}>
                         <div className={"hover:scale-105 transition-all duration-500 overflow-hidden"}>
 
                             <img src="./images/register_img.png" className={"rounded-md"} alt=""/>

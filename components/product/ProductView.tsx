@@ -61,7 +61,7 @@ function ProductView() {
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
                             {Array(3).fill("#232323").map((item, index) => {
                                 return <div key={index}
-                                            className={twMerge(`w-[35px] rounded-full h-[35px] bg-[${item}] ring-1 ring-offset-2 ring-black`)}>
+                                            className={twMerge(`cursor-pointer w-[35px] rounded-full h-[35px] bg-[${item}] ring-1 ring-offset-2 ring-black`)}>
                                 </div>
                             })}
                         </div>
@@ -77,14 +77,16 @@ function ProductView() {
                         </div>
                         <div className={"w-[calc(100%-70px)] md:w-full"}>
                             <div className={"flex gap-x-4 items-center pb-3 pt-5"}>
-                                <button className={"bg-black text-white flex-1 font-bold py-3"}>
+                                <button
+                                    className={"bg-black text-white border border-black flex-1 font-bold py-3 hover:bg-white hover:text-black duration-500 transition-all"}>
                                     ADD TO CART
                                 </button>
                                 <div className={"bg-black p-3 rounded-full"}>
                                     <AiOutlineHeart className={"text-white w-6 h-6"}/>
                                 </div>
                             </div>
-                            <button className={"border border-[#acacac] w-full font-bold py-3 mb-6"}>
+                            <button
+                                className={"border border-[#acacac] w-full bg-[#1990c6] text-white font-bold py-3 mb-6 hover:bg-blue-500 hover:text-white hover:shadow-xl duration-500 transition-all"}>
                                 BUY IT NOW
                             </button>
                         </div>

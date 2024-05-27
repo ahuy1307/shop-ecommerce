@@ -6,6 +6,7 @@ import useQuickAddProduct from "@/hooks/useQuickAddProduct";
 import useWindowDimensions from "@/hooks/useWindowDimenssion";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
+import {Tooltip} from "antd";
 
 type Props = {
     onClick: (id: string) => void
@@ -46,18 +47,21 @@ function ProductItem({onClick}: Props) {
                         src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
                         alt=""/>
                 </Link>
-                <AiOutlineEye
-                    onClick={viewProduct.onOpen}
-                    className={twMerge(`w-6 h-6 sm:w-7 sm:h-7 lg:w-6 lg:h-6 sm:top-4 sm:right-4 absolute top-2 right-0 cursor-pointer lg:opacity-0 transition-all duration-200`, checkHover && `lg:opacity-100 lg:right-2`)}/>
+                <Tooltip title={"Quick view"} placement={"leftTop"} mouseEnterDelay={0} mouseLeaveDelay={0}>
+                    <AiOutlineEye
+                        onClick={viewProduct.onOpen}
+                        className={twMerge(`w-6 h-6 sm:w-7 sm:h-7 lg:w-6 lg:h-6 sm:top-4 sm:right-4 absolute top-2 
+                    right-0 cursor-pointer lg:opacity-0 transition-all duration-200`, checkHover && `lg:opacity-100 lg:right-2`)}/>
+                </Tooltip>
                 <div
                     onClick={handleQuickAdd}
                     className={twMerge(`lg:absolute bottom-0 left-[50%] 
-                    lg:translate-x-[-50%] lg:-bottom-2 bg-white text-center border py-2 border-black w-full lg:opacity-0 transition-all duration-200 hover:bg-black hover:text-white`,
+                    lg:translate-x-[-50%] lg:-bottom-2 bg-white text-center border lg:py-3 py-2 border-black w-full lg:opacity-0 transition-all duration-300 hover:bg-black hover:text-white`,
                         checkHover && `lg:opacity-100 lg:bottom-2`, isQuickAdd && `duration-0 transition-none invisible`)}>
                     <span className={"font-bold"}>QUICK ADD</span>
                 </div>
                 <div
-                    className={twMerge(`absolute top-0 left-0 bg-white/80  w-full h-full flex-col justify-between opacity-0 flex transition-all duration-300 -z-10`, isQuickAdd && `opacity-100 z-10`)}>
+                    className={twMerge(`absolute top-0 left-0 bg-white/80  w-full h-full flex-col justify-between opacity-0 flex transition-all duration-300 -z-10 translate-y-4`, isQuickAdd && `translate-y-0 opacity-100 z-10`)}>
                     <div className={"px-2 flex flex-col items-center overflow-y-scroll quick-add-item pb-4"}>
                         <p className={"font-bold mt-4"}>Size: <span className={"font-thin"}>XL</span></p>
                         <div className={"grid grid-cols-3 gap-2 mt-2"}>
@@ -89,10 +93,10 @@ function ProductItem({onClick}: Props) {
                     <div className={"flex gap-x-4 items-center w-full relative -top-2"}>
                         <span
                             className={"absolute bg-red-500 top-[-30px] left-[50%] w-[85%] h-[30px] translate-x-[-50%] before-background"}></span>
-                        <button className={"bg-black text-white font-bold py-2 flex-1"}>
+                        <button className={"bg-black text-white font-bold lg:py-3 py-2 flex-1"}>
                             ADD
                         </button>
-                        <button className={"border border-[#acacac] font-bold py-2 flex-1"}
+                        <button className={"border border-[#acacac] font-bold lg:py-3 py-2 flex-1"}
                                 onClick={() => setIsQuickAdd(false)}>
                             CANCEL
                         </button>
@@ -103,7 +107,7 @@ function ProductItem({onClick}: Props) {
                 <h3 className={"text-sm hover:underline"}>
                     Glow in the Dark Football Print Long Sleeve Kids Night Suit
                 </h3>
-                <span className={"text-sm font-bold mx-auto block w-full"}>$60.00</span>
+                <span className={"text-sm font-bold mx-auto block w-full py-2"}>$60.00</span>
             </Link>
         </div>
     </>

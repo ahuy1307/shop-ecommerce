@@ -25,8 +25,8 @@ function Header() {
 
     return (
         <header
-            className="fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
-                                xl:px-[120px] md:px-[36px] sm:px-[20px] bg-white z-[99]">
+            className={twMerge(`fixed left-0 right-0 top-0 border-black border-b flex justify-between items-center pl-4 pr-5 h-[70px]
+                                xl:px-[120px] md:px-[36px] sm:px-[20px] bg-white z-[99] lg:backdrop-blur-xl lg:bg-white/50`)}>
             <div onClick={() => setShowMenu("")}
                  className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] transition-all duration-500`, showMenu != "" && `block`)}></div>
             <div className="flex items-center gap-x-8 md:hidden">
@@ -112,7 +112,7 @@ function Header() {
                 <Logo className="w-[90px] h-14 cursor-pointer"/>
             </Link>
             <div className="flex items-center gap-x-8 md:hidden">
-                {!user ? <Link href={"/auth"}>
+                {!user ? <Link href={"/sign-in"}>
                         <FaRegUserCircle className="w-6 h-6 cursor-pointer"/>
                     </Link> :
                     <Link href={"/user?type=wish"}>
@@ -137,16 +137,22 @@ function Header() {
                         className={"absolute bottom-0 h-[2px] w-0 bg-black left-0 group-hover:w-full transition-all duration-500"}></span>
                 </Link>
                 <div className="flex items-center border border-black rounded-md px-3 py-1 gap-x-2 cursor-pointer">
-                    <input type={"text"} placeholder={"Search"} className={"w-[100px] outline-none lg:w-[150px]"}/>
+                    <input type={"text"} placeholder={"Search"}
+                           className={"w-[100px] bg-transparent placeholder:text-black outline-none lg:w-[150px]"}/>
                     <BiSearch className="w-5 h-5 cursor-pointer"/>
                 </div>
-                <Link href={"/user?type=wish"} className="flex-row items-center justify-center cursor-pointer ">
+                <Link href={"/user?type=wish"}
+                      className="flex-row items-center justify-center cursor-pointer group relative">
                     <AiOutlineHeart className="w-5 h-5 mx-auto"/>
                     <p>Wishlist</p>
+                    <span
+                        className={"absolute bottom-0 h-[2px] w-0 bg-black left-0 group-hover:w-full transition-all duration-500"}></span>
                 </Link>
-                <Link href="/cart" className="cursor-pointer">
+                <Link href="/cart" className="cursor-pointer group relative">
                     <CartIcon className="w-5 h-5 mx-auto"/>
                     <p>Cart</p>
+                    <span
+                        className={"absolute bottom-0 h-[2px] w-0 bg-black left-0 group-hover:w-full transition-all duration-500"}></span>
                 </Link>
                 {!user ?
                     <Link href="/sign-in" className="bg-black text-white rounded-md px-6 py-2">

@@ -10,7 +10,7 @@ function CartItem() {
             src="https://www.shopbloom.in/cdn/shop/files/Artboard22_3162831a-815b-4fba-ac7c-dffad5e6aecb_160x.jpg?v=1709640024"
             alt=""/>
         <div className={"col-span-4 md:ml-4 sm:col-span-4 sm:col-start-3 md:col-span-2"}>
-            <p className={"md:inline text-sm lg:text-base"}>Glow in the Dark Stars Print Long
+            <p className={"md:inline text-sm lg:text-base hover:underline"}>Glow in the Dark Stars Print Long
                 Sleeve Kids
                 Night Suit</p>
             <div className={"flex gap-x-4 items-center mt-1"}>
@@ -28,7 +28,7 @@ function CartItem() {
         </div>
         <p className={"font-bold text-xl ml-auto hidden md:block"}>$8.12</p>
         <LuTrash2
-            className={"w-5 h-5 sm:w-6 sm:h-6 md:col-span-1 md:ml-auto col-start-5 ml-[50px] sm:mt-0 sm:col-start-5 text-red-400 sm:mr-auto"}/>
+            className={"cursor-pointer w-5 h-5 sm:w-6 sm:h-6 md:col-span-1 md:ml-auto col-start-5 ml-[50px] sm:mt-0 sm:col-start-5 text-red-400 sm:mr-auto"}/>
     </div>
 }
 

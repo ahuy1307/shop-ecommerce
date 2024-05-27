@@ -46,7 +46,7 @@ function Footer() {
                         <ul className={twMerge(`show-footer-info hidden`, item.show && `block`)}>
                             {item.show && item.info.map((value, index) => {
                                 return <li key={index}
-                                           className={twMerge(`my-2 text-[13px] `,)}>{value}</li>
+                                           className={twMerge(`my-2 text-[13px] hover:underline cursor-pointer`,)}>{value}</li>
                             })}
                         </ul>
                     </div>
@@ -60,7 +60,9 @@ function Footer() {
                         <input
                             className={"bg-black outline-0 placeholder:text-[#cfcfcf] text-white placeholder:text-sm flex-1 pl-4 py-2"}
                             placeholder={"Enter your email address"}/>
-                        <button className={"bg-white text-black uppercase font-bold px-5 text-sm"}>Submit</button>
+                        <button
+                            className={"bg-white text-black uppercase font-bold px-5 text-sm hover:opacity-80"}>Submit
+                        </button>
                     </div>
                 </div>
             </div>

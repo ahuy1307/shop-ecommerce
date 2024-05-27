@@ -3,7 +3,7 @@ import {twMerge} from "tailwind-merge";
 import {featureInfo} from "@/components/home/header_info";
 
 function Feature() {
-    return <div className={"mt-16"}>
+    return <div className={"my-16"}>
         <div className={"grid grid-cols-2 gap-8 sm:px-20 px-10 md:px-[150px] lg:px-20 lg:grid-cols-4 xl:px-[200px]"}>
             {featureInfo && featureInfo.map((item, index) => {
                 return <div

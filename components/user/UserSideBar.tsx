@@ -13,7 +13,7 @@ function UserSideBar() {
     return <div className={"mt-4 hidden md:block"}>
 
         <div className={"mr-10 lg:border border-gray-500/20 lg:w-[250px] xl:w-[300px]"}>
-            <Link href={"/user"}
+            <Link href={"/user-profile"}
                   className={"hidden border-y border-gray-500/20 py-4 gap-x-4 pl-4 items-center lg:flex"}>
                 <img src={user ? user.imageUrl : `./images/no_avatar_user.jpg`}
                      className={"w-[70px] h-[70px] rounded-full object-cover"}

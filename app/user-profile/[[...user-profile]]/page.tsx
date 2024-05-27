@@ -3,6 +3,7 @@ import {UserProfile} from "@clerk/nextjs";
 import Header from "@/components/home/Header";
 import UserSideBar from "@/components/user/UserSideBar";
 import {useSearchParams} from "next/navigation";
+import Footer from "@/components/footer/Footer";
 
 
 function Page() {

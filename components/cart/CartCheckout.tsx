@@ -6,7 +6,7 @@ function CartCheckout() {
     const [size, setSize] = useState(2)
     return <>
         {/*Quantity in cart > 0*/}
-        <div className={"flex-col lg:flex lg:flex-row gap-x-5"}>
+        <div className={"flex-col lg:flex lg:flex-row gap-x-5 pb-8"}>
             {size > 0 &&
                 <div className={"lg:w-[70%]"}>
                     <div className={"font-bold grid gap-x-4 grid-cols-7 bg-gray-500/10 py-4 px-4 mt-4"}>
@@ -32,7 +32,8 @@ function CartCheckout() {
                                 <input
                                     className={"flex-1 w-full outline-0 bg-transparent border border-gray-500/50 pl-4 py-2"}
                                     placeholder={"Enter coupon code"}/>
-                                <button className={"bg-black text-white rounded-md px-6 py-2"}>Check</button>
+                                <button className={"bg-black text-white rounded-md px-6 py-2 hover:opacity-70"}>Check
+                                </button>
                             </div>
                         </div>
                         <div className={"mt-6 border-b border-gray-500/40 pb-2"}>
@@ -54,10 +55,11 @@ function CartCheckout() {
                 }
                 <div className={"flex-col md:w-[50%] lg:w-full"}>
                     {size > 0 && <button
-                        className={"mx-auto bg-black text-white w-full mt-6 border py-2 font-semibold text-md border-black"}>
+                        className={"hover:bg-white hover:text-black mx-auto bg-black text-white w-full mt-6 border py-2 font-semibold text-md border-black"}>
                         PROCEED TO CHECKOUT
                     </button>}
-                    <button className={"mx-auto w-full border py-2 mt-4 font-semibold text-md border-black"}>CONTINUE
+                    <button
+                        className={"hover:bg-black hover:text-white mx-auto w-full border py-2 mt-4 font-semibold text-md border-black"}>CONTINUE
                         SHOPPING
                     </button>
                 </div>
