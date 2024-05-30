@@ -8,11 +8,10 @@ import 'swiper/css/navigation';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ToastProvider from "@/contexts/ToastProvider";
-import AuthContextProvider from "@/contexts/AuthProvider";
 import {Suspense} from "react";
 import LocationProvider from "@/contexts/LocationProvider";
-import AddressProvider from "@/contexts/AddressProvider";
 import {ClerkProvider} from "@clerk/nextjs";
+import QueryClientContext from "@/contexts/QueryClientContext";
 
 
 const roboto = Roboto({
@@ -41,15 +40,13 @@ export default function RootLayout({
             </head>
             <body className={roboto.className}>
             <ToastProvider/>
-            <Suspense>
-                <AuthContextProvider>
+            <QueryClientContext>
+                <Suspense>
                     <LocationProvider>
-                        <AddressProvider>
-                            {children}
-                        </AddressProvider>
+                        {children}
                     </LocationProvider>
-                </AuthContextProvider>
-            </Suspense>
+                </Suspense>
+            </QueryClientContext>
             </body>
             </html>
         </ClerkProvider>

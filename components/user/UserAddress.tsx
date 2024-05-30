@@ -1,18 +1,22 @@
 import AddressInfo from "@/components/user/AddressInfo";
 import {AiOutlinePlus} from "react-icons/ai";
 import useCreateUserAddress from "@/hooks/useCreateUserAddress";
-import {useAuth} from "@/contexts/AuthProvider";
 import {useEffect} from "react";
 import AddAdressInfoModal from "@/components/user/modal/AddAdressInfoModal";
+import {useAuth} from "@clerk/nextjs";
+import {useQuery} from "@tanstack/react-query";
+import {getUserAddress} from "@/actions/user-address";
+import {Address} from "@/interface";
 
 function UserAddress() {
-    const {user, checkUser} = useAuth()
     const createUserAddress = useCreateUserAddress()
+    const user = useAuth();
 
-    useEffect(() => {
-        if (createUserAddress.isOpen) return
-        checkUser()
-    }, [createUserAddress.isOpen])
+    const userAddress = useQuery({
+        queryKey: ["user-address"],
+        queryFn: () => getUserAddress(user.userId),
+        placeholderData: []
+    })
 
     return <div>
         <div
@@ -23,11 +27,11 @@ function UserAddress() {
             <p>Add New Address</p>
         </div>
         <div className={"flex flex-col gap-y-4"}>
-            {user && user?.addresses.length > 0 && user.addresses.length > 0 && user.addresses.map((address, index) => (
+            {user && userAddress.data?.length > 0 && userAddress.data?.map((address: Address, index: number) => (
                 <AddressInfo key={index} address={address}/>
             ))}
-            {!user && <p>Loading...</p>}
-            {user && user?.addresses.length == 0 && <p className={"text-center"}>No address found</p>}
+            {userAddress.isLoading && <p>Loading...</p>}
+            {user && userAddress.data?.length == 0 && <p className={"text-center"}>No address found</p>}
         </div>
         <AddAdressInfoModal/>
     </div>

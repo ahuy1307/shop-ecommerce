@@ -1,16 +1,17 @@
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {twMerge} from "tailwind-merge";
-import useCreateUserAddress from "@/hooks/useCreateUserAddress";
 import CustomCursor from "@/components/others/CustomCursor";
 import AddressUser from "@/components/user/supports/AddressUser";
 import {Address} from "@/interface";
 import {z} from "zod";
-import {useAuth} from "@/contexts/AuthProvider";
-import {useAddress} from "@/contexts/AddressProvider";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {updateUserAddress} from "@/actions/user-address";
+import toast from "react-hot-toast";
+import {useAuth} from "@clerk/nextjs";
 
 const User = z
     .object({
-        name: z
+        namePerson: z
             .string({
                 required_error: "Field is required",
                 invalid_type_error:
@@ -55,36 +56,38 @@ const User = z
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    onUpdate: () => void;
     address: Address
 }
 
-function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) {
-    const {user} = useAuth()
+function UpdateAddressModal({isOpen = true, onClose, address}: Props) {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+    const user = useAuth()
+
     const [formData, setFormData] = useState<Address>({
         id: address.id,
-        name: address.name,
+        namePerson: address.namePerson,
         phone: address.phone,
         province: address.province,
         district: address.district,
         ward: address.ward,
         currentAddress: address.currentAddress,
-        user_id: user?.id
+        default: address.default,
+        userId: user.userId as string
     })
 
     useEffect(() => {
         setFormData({
             id: address.id,
-            name: address.name,
+            namePerson: address.namePerson,
             phone: address.phone,
             province: address.province,
             district: address.district,
             ward: address.ward,
             currentAddress: address.currentAddress,
-            user_id: user?.id
+            default: address.default,
+            userId: user.userId as string
         })
-    }, [user])
+    }, [])
 
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
@@ -96,13 +99,14 @@ function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) 
         setFormData(
             {
                 id: address.id,
-                name: address.name,
+                namePerson: address.namePerson,
                 phone: address.phone,
                 province: address.province,
                 district: address.district,
                 ward: address.ward,
                 currentAddress: address.currentAddress,
-                user_id: user?.id
+                default: address.default,
+                userId: user.userId as string
             }
         )
     }, [isOpen])
@@ -120,6 +124,20 @@ function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) 
             [key]: value
         })
     }
+
+    const queryClient = useQueryClient()
+
+    const {mutateAsync: updateAddressMutation} = useMutation({
+        mutationFn: updateUserAddress,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["user-address"]})
+            onClose()
+            toast.success("Successfully!")
+        },
+        onError: () => {
+            toast.error("Failed!")
+        }
+    })
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -151,8 +169,9 @@ function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) 
             return setFormErrors(newErrors);
         }
         setFormErrors({});
+        console.log(1)
         try {
-
+            await updateAddressMutation(formData)
         } catch (e) {
             console.log(e)
         }
@@ -172,11 +191,11 @@ function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) 
                     <label className="block mb-1 text-sm" htmlFor="name">
                         Name
                     </label>
-                    <input id="name" name={"name"} value={formData.name} type="text"
+                    <input id="namePerson" name={"name"} value={formData.namePerson} type="text"
                            placeholder="Enter Name"
                            onChange={handleChangeInput}
                            className="px-4 py-3 w-full rounded-[10px] border border-neutral-900 outline-none"/>
-                    {formErrors.name && <p className={"text-red-500 text-sm"}>{formErrors.name}</p>}
+                    {formErrors.namePerson && <p className={"text-red-500 text-sm"}>{formErrors.namePerson}</p>}
                 </div>
                 <div className={"mt-3"}>
                     <label className="block mb-1 text-sm" htmlFor="email">
@@ -211,7 +230,7 @@ function UpdateAddressModal({isOpen = true, onClose, onUpdate, address}: Props) 
                         CANCEL
                     </button>
                     <button type={"submit"} className={"bg-black text-white font-bold py-3 flex-1"}>
-                        ADD NEW ADDRESS
+                        UPDATE ADDRESS
                     </button>
                 </div>
             </form>

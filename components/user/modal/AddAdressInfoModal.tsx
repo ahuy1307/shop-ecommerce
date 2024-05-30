@@ -5,12 +5,14 @@ import CustomCursor from "@/components/others/CustomCursor";
 import AddressUser from "@/components/user/supports/AddressUser";
 import {Address} from "@/interface";
 import {z} from "zod";
-import {useAuth} from "@/contexts/AuthProvider";
-import {useAddress} from "@/contexts/AddressProvider";
+import {useAuth} from "@clerk/nextjs";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {addUserAddress} from "@/actions/user-address";
+import toast from "react-hot-toast";
 
 const User = z
     .object({
-        name: z
+        namePerson: z
             .string({
                 required_error: "Field is required",
                 invalid_type_error:
@@ -55,30 +57,17 @@ const User = z
 
 function AddAdressInfoModal() {
     const createUserAddress = useCreateUserAddress()
-    const {addAddress} = useAddress()
-    const {user} = useAuth()
+    const user = useAuth()
     const [formErrors, setFormErrors] = useState<Record<string, string>>({})
     const [formData, setFormData] = useState<Address>({
-        name: "",
+        namePerson: "",
         phone: "",
         province: "",
         district: "",
         ward: "",
         currentAddress: "",
-        user_id: user?.id
+        userId: user.userId as string
     })
-
-    useEffect(() => {
-        setFormData({
-            name: "",
-            phone: "",
-            province: "",
-            district: "",
-            ward: "",
-            currentAddress: "",
-            user_id: user?.id
-        })
-    }, [user])
 
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
@@ -87,17 +76,15 @@ function AddAdressInfoModal() {
         else
             document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
         setFormErrors({})
-        setFormData(
-            {
-                name: "",
-                phone: "",
-                province: "",
-                district: "",
-                ward: "",
-                currentAddress: "",
-                user_id: user?.id
-            }
-        )
+        setFormData({
+            namePerson: "",
+            phone: "",
+            province: "",
+            district: "",
+            ward: "",
+            currentAddress: "",
+            userId: user.userId as string
+        })
     }, [createUserAddress.isOpen])
 
     const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +101,19 @@ function AddAdressInfoModal() {
         })
     }
 
+    const queryClient = useQueryClient()
+
+    const {mutateAsync: addAddressMutation} = useMutation({
+        mutationFn: addUserAddress,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["user-address"]})
+            createUserAddress.onClose()
+            toast.success("Successfully!")
+        },
+        onError: () => {
+            toast.error("Failed!")
+        }
+    })
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -145,14 +145,13 @@ function AddAdressInfoModal() {
         }
         setFormErrors({});
         try {
-            const isSuccess = await addAddress(formData)
-            if (isSuccess)
-                createUserAddress.onClose()
+            await addAddressMutation(formData)
         } catch (e) {
             console.log(e)
         }
     }
 
+    console.log(formData)
     return <>
         <div onClick={createUserAddress.onClose}
              className={twMerge(`hidden fixed bg-black/40 inset-0 h-[100vh] z-[999] transition-all duration-500 z-[100] cursor-none`, createUserAddress.isOpen && `block`)}>
@@ -167,11 +166,11 @@ function AddAdressInfoModal() {
                     <label className="block mb-1 text-sm" htmlFor="name">
                         Name
                     </label>
-                    <input id="name" name={"name"} value={formData.name} type="text"
+                    <input id="namePerson" name={"namePerson"} value={formData.namePerson} type="text"
                            placeholder="Enter Name"
                            onChange={handleChangeInput}
                            className="px-4 py-3 w-full rounded-[10px] border border-neutral-900 outline-none"/>
-                    {formErrors.name && <p className={"text-red-500 text-sm"}>{formErrors.name}</p>}
+                    {formErrors.namePerson && <p className={"text-red-500 text-sm"}>{formErrors.namePerson}</p>}
                 </div>
                 <div className={"mt-3"}>
                     <label className="block mb-1 text-sm" htmlFor="email">

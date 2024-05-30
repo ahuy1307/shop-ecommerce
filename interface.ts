@@ -16,14 +16,14 @@ export interface UserData {
 
 export interface Address {
     id?: number
-    name: string,
+    namePerson: string,
     phone: string
     province: string,
     district: string,
     ward: string,
     currentAddress: string
-    isDefault?: boolean
-    user_id?: UUID
+    default?: boolean
+    userId: string
 }
 
 export interface DetailPhone {

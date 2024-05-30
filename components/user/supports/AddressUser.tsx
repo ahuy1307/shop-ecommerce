@@ -4,7 +4,6 @@ import {IoIosArrowDown} from "react-icons/io";
 import {twMerge} from "tailwind-merge";
 import {District, Province, Ward} from "@/interface";
 import useCreateUserAddress from "@/hooks/useCreateUserAddress";
-import toast from "react-hot-toast";
 
 type ShowState = {
     province: boolean;
@@ -29,11 +28,11 @@ type Props = {
 }
 
 function AddressUser({onChange, formErrors, data}: Props) {
-    const [provinces, setProvinces] = useState<Province[]>([])
-    const [districts, setDistricts] = useState<District[]>([])
-    const [wards, setWards] = useState<Ward[]>([])
+    const {getDistrictsByProvince, getWardsByDistrict, getAllProvinces} = useLocation()
+    const [provinces, setProvinces] = useState<Province[] | undefined>([])
+    const [districts, setDistricts] = useState<District[] | undefined>([])
+    const [wards, setWards] = useState<Ward[] | undefined>([])
     const {isOpen} = useCreateUserAddress()
-    const {getDistrictsByProvince, getWardsByDistrict} = useLocation()
     const [show, setShow] = useState({
         province: false,
         district: false,
@@ -44,6 +43,14 @@ function AddressUser({onChange, formErrors, data}: Props) {
         district: null,
         ward: null
     })
+
+    useEffect(() => {
+        const res = getAllProvinces();
+        res.then((data) => {
+            setProvinces(data)
+        })
+
+    }, []);
 
     const handleShow = (key: keyof ShowState) => {
         if (key === "district" && !formData.province) return
@@ -58,14 +65,52 @@ function AddressUser({onChange, formErrors, data}: Props) {
     }
 
     useEffect(() => {
-        setFormData(
-            {
-                province: null,
-                district: null,
-                ward: null
+        if (!data)
+            setFormData(
+                {
+                    province: null,
+                    district: null,
+                    ward: null
+                }
+            )
+
+        const getUserAddress = async () => {
+            if (data?.province) {
+                const province = provinces?.find(province => province.province_name === data.province);
+                if (province) {
+                    setFormData(prev => ({
+                        ...prev,
+                        province: province
+                    }));
+
+                    const districtsData = await getDistrictsByProvince(province.province_id);
+                    setDistricts(districtsData);
+
+                    const district = districtsData?.find(district => district.district_name === data.district);
+                    if (district) {
+                        setFormData(prev => ({
+                            ...prev,
+                            district: district
+                        }));
+
+                        const wardsData = await getWardsByDistrict(district.district_id);
+                        setWards(wardsData);
+
+                        const ward = wardsData?.find(ward => ward.ward_name === data.ward);
+                        if (ward) {
+                            setFormData(prev => ({
+                                ...prev,
+                                ward: ward
+                            }));
+                        }
+                    }
+                }
             }
-        )
-    }, [isOpen]);
+        };
+
+        getUserAddress()
+    }, [isOpen, provinces, getDistrictsByProvince, getWardsByDistrict]);
+
 
     const handleSelectProvince = (province: Province) => {
         setFormData(prev => {
@@ -76,12 +121,12 @@ function AddressUser({onChange, formErrors, data}: Props) {
             }
         })
         onChange("province", province.province_name)
-        getDistrictsByProvince(province.province_id)
+        getDistrictsByProvince(province.province_id).then(data => setDistricts(data))
     }
 
     const handleSelectDistrict = (district: District) => {
         setFormData({...formData, district})
-        getWardsByDistrict(district.district_id)
+        getWardsByDistrict(district.district_id).then(data => setWards(data))
         onChange("district", district.district_name)
 
     }
@@ -153,7 +198,7 @@ function AddressUser({onChange, formErrors, data}: Props) {
                     {formErrors.ward && <p className={"text-red-500 text-sm"}>{formErrors.ward}</p>}
                     <IoIosArrowDown
                         className={twMerge(`absolute top-[50%] right-4 translate-y-[-50%] transition-all duration-300`, show.ward && `rotate-180`)}/>
-                    {wards.length > 0 && <div
+                    {<div
                         className={twMerge(`absolute max-h-44 h-44 overflow-y-scroll top-full left-0 w-full bg-white 
                         border border-neutral-900 rounded-lg z-[100] mt-1 shadow-md scale-0 origin-top-right transition-all duration-300`, show.ward && `scale-100`)}>
                         {wards?.map((ward, index) => (
