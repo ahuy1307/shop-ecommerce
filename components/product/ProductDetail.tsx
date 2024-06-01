@@ -1,9 +1,7 @@
 "use client"
 import {AiOutlineClose, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus, AiOutlineRight} from "react-icons/ai";
-import SliderImageProduct from "@/components/product/SliderImageProduct";
 import {twMerge} from "tailwind-merge";
-import {useEffect, useState} from "react";
-import useWindowDimensions from "@/hooks/useWindowDimenssion";
+import {useState} from "react";
 
 function ProductDetail() {
     const [showDesc, setShowDesc] = useState(false)
@@ -22,7 +20,6 @@ function ProductDetail() {
                 <img
                     src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
                     alt="" className={"xl:order-2 xl:w-[500px] min-[1400px]:w-[560px]"}/>
-                <SliderImageProduct detail={true} className={"2xl:relative 2xl:bottom-10"}/>
             </div>
             <div className={"md:mt-[80px]"}>
                 <h3 className={"font-bold text-lg"}>

@@ -1,13 +1,17 @@
 import {twMerge} from "tailwind-merge";
 import useViewProduct from "@/hooks/useViewProduct";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {AiOutlineClose, AiOutlineHeart, AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
-import SliderImageProduct from "@/components/product/SliderImageProduct";
 import CustomCursor from "@/components/others/CustomCursor";
+import SliderImageProduct from "@/components/product/SliderImageProduct";
+import {Category, ProductDetail} from "@/interface";
 
-function ProductView() {
+function ProductView({data, category}: { data: ProductDetail, category: Category }) {
     const viewProduct = useViewProduct()
     const modalRef = useRef<HTMLDivElement>(null)
+    const [indexColor, setIndexColor] = useState(0)
+    const [indexSize, setIndexSize] = useState(0)
+    const [quantity, setQuantity] = useState(1)
 
     useEffect(() => {
         const body = document.querySelector<HTMLElement>("body")
@@ -15,8 +19,12 @@ function ProductView() {
             if (modalRef.current)
                 modalRef.current.scrollTop = 0
             document.querySelector<HTMLElement>("body")!.style.overflowY = "hidden"
-        } else
+        } else {
             document.querySelector<HTMLElement>("body")!.style.overflowY = "auto"
+            setQuantity(1)
+            setIndexColor(0)
+            setIndexSize(0)
+        }
 
     }, [viewProduct.isOpen])
 
@@ -29,51 +37,66 @@ function ProductView() {
         <div
 
             className={twMerge(`fixed top-[50%] w-[calc(100%-50px)] lg:w-[1024px] left-[50%] translate-x-[-50%]
-                translate-y-[-50%] bg-white h-[85%] transition-all origin-center hidden z-[101]`, viewProduct.isOpen && `block`)}>
+                translate-y-[-50%] bg-white h-[85%] transition-all origin-center block z-[101] duration-300 scale-[0.001]`, viewProduct.isOpen && `scale-100`)}>
             <div className={"pt-8 h-full"}>
                 <div className={"absolute -right-3 -top-3 bg-black p-1"} onClick={viewProduct.onClose}>
                     <AiOutlineClose className={"w-5 h-5 text-white"}/>
                 </div>
                 <div className={"relative overflow-y-scroll h-full md:flex md:items-center"} ref={modalRef}>
-                    <div className={"px-8 md:w-[50%]"}>
-                        <img
-                            src="https://www.shopbloom.in/cdn/shop/files/Artboard24_20f1e816-7524-4db9-b68b-b1fa4b82e4c1_1880x.jpg?v=1709640156"
-                            alt=""/>
-                        <SliderImageProduct/>
-                    </div>
+                    <SliderImageProduct data={data}/>
                     <div className={"px-8"}>
                         <h3 className={"font-bold"}>
-                            Glow in the Dark Stars Print Long Sleeve Kids Night Suit
+                            {data && data.name}
                         </h3>
                         <p className={"mt-2 text-gray-500"}>Availability: In stock</p>
-                        <p className={"text-gray-500"}>Product Type: Kids Night Suit</p>
-                        <p className={"font-bold mt-2 text-lg"}>Price: $39.00</p>
-                        <p className={"font-bold mt-4"}>Size: <span className={"font-thin"}>XL</span></p>
+                        <p className={"text-gray-500"}>Product Type: {category && category.name}</p>
+                        <p className={"font-bold mt-2 text-lg"}>Price: ${data && data.price}</p>
+                        <p className={"font-bold mt-4"}>Size: <span className={"font-thin"}>
+                            {data && data.variants[indexSize].size.name}
+                        </span></p>
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
-                            {Array(3).fill(0).map((item, index) => {
-                                return <div key={index}
-                                            className={twMerge(`border px-4 py-1 border-[#cbcbcb] cursor-pointer`, index == 1 && `border-black`)}>
-                                    XL
+                            {data && data.variants.map((item, index) => {
+                                return <div key={index} onClick={() => {
+                                    setIndexSize(index)
+                                    setIndexColor(0)
+                                }}
+                                            className={twMerge(`border px-4 py-1 border-[#cbcbcb] cursor-pointer`, index == indexSize && `border-black`)}>
+                                    {item.size.name}
                                 </div>
                             })}
                         </div>
-                        <p className={"font-bold mt-4"}>Color: <span className={"font-thin"}>Black</span></p>
+                        <p className={"font-bold mt-4"}>Color: <span className={"font-thin"}>
+                            {data && data.variants[indexSize].colors[indexColor].color.name.toUpperCase()}
+                        </span></p>
                         <div className={"flex flex-wrap gap-x-4 mt-2"}>
-                            {Array(3).fill("#232323").map((item, index) => {
-                                return <div key={index}
-                                            className={twMerge(`cursor-pointer w-[35px] rounded-full h-[35px] bg-[${item}] ring-1 ring-offset-2 ring-black`)}>
+                            {data && data.variants[indexSize].colors.map((item, index) => {
+                                return <div style={{background: `${item.color.hexColor}`}} key={index}
+                                            onClick={() => setIndexColor(index)}
+                                            className={twMerge(`cursor-pointer w-[35px] rounded-full h-[35px] ring-1 ring-offset-2 ring-black`,
+                                                index == indexColor && `ring-2`, item.color.hexColor == "#fff" && `border border-black`)}>
                                 </div>
                             })}
                         </div>
-                        <p className={"mt-4 text-[#d62828]"}>Hurry up! only 20 left</p>
+                        <p className={"mt-4 text-[#d62828]"}>Hurry up! only {
+                            data && data.variants[indexSize].colors[indexColor].quantityStock
+                        } left</p>
                         <p className={"font-bold mt-6"}>Quantity: </p>
                         <div
-                            className={"w-[120px] mt-1 rounded-lg border border-black flex items-center px-2 py-2"}>
-                            <AiOutlineMinus className={"cursor-pointer w-6 h-6"}/>
-                            <input type={"text"} value={2} onChange={() => {
+                            className={"w-[120px] mt-2 rounded-lg border border-black flex items-center px-2 py-2"}>
+                            <AiOutlineMinus onClick={() => {
+                                setQuantity(prev => prev - 1)
+                                if (quantity <= 1)
+                                    setQuantity(1)
                             }}
+                                            className={"cursor-pointer w-6 h-6"}/>
+                            <input type={"text"} value={quantity}
                                    className={"w-full bg-transparent outline-0 text-black text-center"}/>
-                            <AiOutlinePlus className={"cursor-pointer w-6 h-6"}/>
+                            <AiOutlinePlus onClick={() => {
+                                if (quantity == data.variants[indexSize].colors[indexColor].quantityStock)
+                                    return;
+                                setQuantity(prev => prev + 1)
+                            }}
+                                           className={"cursor-pointer w-6 h-6"}/>
                         </div>
                         <div className={"w-[calc(100%-70px)] md:w-full"}>
                             <div className={"flex gap-x-4 items-center pb-3 pt-5"}>

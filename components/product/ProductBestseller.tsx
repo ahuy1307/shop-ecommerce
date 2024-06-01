@@ -6,17 +6,34 @@ import {SwiperSlide} from "swiper/react";
 import SliderProduct from "@/components/product/SliderProduct";
 import ProductView from "@/components/product/ProductView";
 import QuickAddProduct from "@/components/product/QuickAddProduct";
+import {useQuery} from "@tanstack/react-query";
+import {getAllProducts, getProductDetail} from "@/actions/products";
+import {ProductDetail} from "@/interface";
+import {getCategory} from "@/actions/category";
 
 function ProductBestseller() {
-    const pagination = {
-        clickable: true,
-        renderBullet: function (index: any, className: any) {
-            return '<span class="' + className + '" style="position: relative; bottom: -10px; ' +
-                'background: transparent; border: 1px solid black; width: 12px;\n' +
-                '    height: 12px;"></span>';
-        },
-    };
-    const [products, setProducts] = useState("")
+    const allProducts = useQuery(
+        {
+            queryKey: ["product"],
+            queryFn: () => getAllProducts(),
+            placeholderData: []
+        }
+    )
+
+    const [productSlugSelected, setProductSlugSelected] = useState("")
+    const [categoryIdSelected, setCategoryIdSelected] = useState(0)
+
+    const product = useQuery({
+        queryKey: ["product", productSlugSelected],
+        queryFn: () => getProductDetail(productSlugSelected),
+        enabled: !!productSlugSelected,
+    })
+
+    const categoryData = useQuery({
+        queryKey: ["category", categoryIdSelected],
+        queryFn: () => getCategory(categoryIdSelected),
+        enabled: !!categoryIdSelected,
+    })
 
     return <div className={"xl:px-[120px] md:px-[36px] sm:px-[20px] px-4 z-[99] pt-5"}>
         <div className={"flex items-center justify-center gap-x-2 mt-4 relative"}>
@@ -31,25 +48,27 @@ function ProductBestseller() {
         </div>
         <div className={"product-seller sm:border-b sm:border-gray-500/40 sm:py-2 lg:border-0"}>
             <SliderProduct>
-                {Array(4).fill(0).map((item, index) => {
+                {allProducts.data?.slice(0, 5).map((item: ProductDetail, index: number) => {
                     return <SwiperSlide key={index}>
-                        <ProductItem onClick={(id: string) => setProducts(id)}/>
+                        <ProductItem data={item} onClick={() => setProductSlugSelected(item.slug)}
+                                     onCategory={() => setCategoryIdSelected(item.categoryId)}/>
                     </SwiperSlide>
                 })}
             </SliderProduct>
         </div>
         <div className={"product-seller"}>
             <SliderProduct>
-                {Array(4).fill(0).map((item, index) => {
+                {allProducts.data?.slice(6, 10).fill(0).map((item: ProductDetail, index: number) => {
                     return <SwiperSlide key={index}>
-                        <ProductItem onClick={(id: string) => setProducts(id)}/>
+                        <ProductItem data={item} onClick={() => setProductSlugSelected(item.slug)}
+                                     onCategory={() => setCategoryIdSelected(item.categoryId)}/>
                     </SwiperSlide>
                 })}
             </SliderProduct>
         </div>
 
-        <ProductView/>
-        <QuickAddProduct/>
+        <ProductView data={product.data} category={categoryData.data}/>
+        <QuickAddProduct data={product.data}/>
     </div>
 }
 

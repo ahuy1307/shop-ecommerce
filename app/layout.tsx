@@ -5,8 +5,6 @@ import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import ToastProvider from "@/contexts/ToastProvider";
 import {Suspense} from "react";
 import LocationProvider from "@/contexts/LocationProvider";
@@ -48,6 +46,7 @@ export default function RootLayout({
                 </Suspense>
             </QueryClientContext>
             </body>
+
             </html>
         </ClerkProvider>
     );

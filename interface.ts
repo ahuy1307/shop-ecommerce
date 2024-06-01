@@ -1,19 +1,5 @@
 import {UUID} from "node:crypto";
 
-
-export interface UserData {
-    id: UUID,
-    firstName: string,
-    lastName: string,
-    email: string,
-    avatar: string,
-    gender: string,
-    phone: string,
-    dateOfBirth: Date,
-    addresses: Address[],
-    role: string
-}
-
 export interface Address {
     id?: number
     namePerson: string,
@@ -24,20 +10,6 @@ export interface Address {
     currentAddress: string
     default?: boolean
     userId: string
-}
-
-export interface DetailPhone {
-    root: string
-    country: string
-    flag: string
-}
-
-export interface UserUpdate {
-    firstName: string,
-    lastName: string,
-    gender: string,
-    dateOfBirth: Date | null,
-    phone: string,
 }
 
 export interface Province {
@@ -55,4 +27,38 @@ export interface District {
 export interface Ward {
     ward_id: string,
     ward_name: string,
+}
+
+export interface Color {
+    id: number,
+    name: string,
+    hexColor: string
+}
+
+export interface Size {
+    id: number,
+    name: string
+}
+
+export interface Category {
+    id: number,
+    name: string,
+    description: string
+    typePersonId: number
+}
+
+export interface ProductDetail {
+    id: number,
+    name: string,
+    price: number
+    categoryId: number,
+    variants: {
+        size: Size,
+        colors: {
+            color: Color,
+            quantityStock: number
+            thumbnail: string
+        }[]
+    }[],
+    slug: string
 }

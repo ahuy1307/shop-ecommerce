@@ -6,12 +6,15 @@ import {useState} from "react";
 import DeleteAddressModal from "@/components/user/modal/DeleteAddressModal";
 import UpdateAddressModal from "@/components/user/modal/UpdateAddressModal";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {deleteUserAddress, updateUserAddress} from "@/actions/user-address";
+import {deleteUserAddress, updateUserAddress, updateUserDefaultAddress} from "@/actions/user-address";
 import toast from "react-hot-toast";
+import {Modal} from "antd";
+import {TiWarning} from "react-icons/ti";
 
 function AddressInfo({address}: { address: Address }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showUpdateModal, setShowUpdateModal] = useState(false)
+    const [showDefaultModal, setShowDefaultModal] = useState(false)
     const queryClient = useQueryClient()
 
     const handleDelete = useMutation({
@@ -25,7 +28,16 @@ function AddressInfo({address}: { address: Address }) {
             toast.error("Failed to delete address")
         }
     })
-    
+
+    const {mutateAsync: handleUpdateDefault} = useMutation({
+        mutationFn: (id: number | undefined) => updateUserDefaultAddress(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['user-address']})
+            setShowDefaultModal(false)
+            toast.success("Address updated")
+        },
+    })
+
     return <div className={"flex justify-between items-center border-b border-gray-500/30 pb-4"}>
         <div className={"flex flex-col gap-y-1"}>
             <h3 className={"font-bold"}>{address.namePerson}</h3>
@@ -61,13 +73,27 @@ function AddressInfo({address}: { address: Address }) {
                                         }
                                     }}/>
             </div>
-            {!address.default && <div
-                className={"cursor-pointer flex items-center justify-center mt-1"}>
+            {!address.default && <div onClick={() => setShowDefaultModal(true)}
+                                      className={"cursor-pointer flex items-center justify-center mt-1"}>
                 <span className={"text-red-600 hover:text-black"}>Set as default</span>
             </div>}
         </div>
         <UpdateAddressModal isOpen={showUpdateModal} onClose={() => setShowUpdateModal(false)}
                             address={address}/>
+        <Modal
+            title={<div className="flex items-center justify-center gap-x-4 font-bold text-xl mb-4">
+                <TiWarning className={"text-yellow-500 w-6 h-6"}/>
+                <p>Change default address</p>
+            </div>}
+            centered
+            open={showDefaultModal}
+            okText={"Confirm"}
+            okButtonProps={{className: "bg-yellow-500 hover:bg-yellow-600 text-white"}}
+            onOk={async () => await handleUpdateDefault(address.id)}
+            onCancel={() => setShowDefaultModal(false)}
+        >
+            <p>Are you sure to change default address ?</p>
+        </Modal>
     </div>
 }
 

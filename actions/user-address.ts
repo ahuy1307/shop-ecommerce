@@ -22,3 +22,8 @@ export const updateUserAddress = async (data: Address) => {
     await axiosInstance.put(`/address/${data.id}`, data)
     return Promise.resolve(true)
 }
+
+export const updateUserDefaultAddress = async (id: number | undefined) => {
+    await axiosInstance.patch(`/address/${id}`)
+    return Promise.resolve(true)
+}
